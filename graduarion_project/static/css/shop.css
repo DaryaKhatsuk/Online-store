@@ -24,6 +24,7 @@ h2{
     align-content: stretch;
     flex-wrap: wrap;
 }
+
 .plort{
     width: 30%;
     min-width: 263px;
