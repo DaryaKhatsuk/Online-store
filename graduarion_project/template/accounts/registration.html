@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block page-content %}
+<head>
+    <title>PlortShop.Zz</title>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="{% static 'css/registration.css' %}">
+</head>
+<body>
+    <div class="sect">
+        <form method="post">
+            {{form.as_p}}
+            {% csrf_token %}
+            <input type="submit" value="Registration">
+        </form>
+    </div>
+</body>
+{% endblock %}

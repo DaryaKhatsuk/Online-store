@@ -1,0 +1,69 @@
+h2{
+    min-width: 459px;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.8);
+    padding-bottom: 10px;
+    border-end-start-radius: 10px;
+    border-end-end-radius: 10px;
+}
+
+.attention_mess{
+    min-width: 478px;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.8);
+    padding-bottom: 10px;
+}
+
+.plort_load{
+    width: 100%;
+    display: flex;
+    align-items: flex-start;
+    line-height: normal;
+    flex-direction: row;
+    justify-content: center;
+    align-content: stretch;
+    flex-wrap: wrap;
+}
+.plort{
+    width: 30%;
+    min-width: 263px;
+    min-height: 318px;
+    height: max-content;
+    background: rgba(255, 255, 255, 0.8);
+    color: rgba(255, 89, 108, 0.8);
+    border-radius:15px;
+    text-align: justify;
+    padding: 8px;
+    margin-top: 8px;
+    margin-left: 8px;
+    align-content: space-around;
+    align-items: center;
+}
+.text_title img{
+    margin-right: 8px;
+}
+
+.text_title{
+    display: flex;
+    align-items: center;
+    line-height: normal;
+    text-align: center;
+}
+
+.text a{
+    padding: 3px 4px 3px 4px;
+    margin: 2px 3px 1px 3px;
+    border-radius: 10px;
+}
+
+.text{
+    margin-bottom: 8px;
+}
+
+@media screen and (min-width:920px) {
+
+    .text a{
+    padding: 5px 5px 5px 5px;
+    margin: 5px 0px 0px 5px;
+    }
+}

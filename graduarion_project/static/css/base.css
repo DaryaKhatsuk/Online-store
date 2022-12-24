@@ -1,0 +1,63 @@
+*{
+    padding: 0px;
+    margin: 0px;
+    color: #192949;
+}
+body{
+    margin-right: 10%;
+    margin-left: 10%;
+    background-image: url("../images/cute lucky slime wallpaper.jpg");
+    background-position: unset;
+    background-size: unset;
+    background-repeat: repeat-y;
+}
+nav{
+    display: flex;
+    text-align: left;
+    height: 100px;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.8);
+    align-items: center;
+    line-height: normal;
+    min-width: 478px;
+}
+nav img{
+    margin-left: 7px;
+    margin-right: 4px;
+}
+a{
+    background: rgba(195, 210, 246, 0.7);
+    padding: 3px 8px 3px 8px;
+    margin: 7px;
+    border-radius: 10px;
+    border: 1px solid rgba(25, 41, 73, 0.8);
+}
+a:active{
+    background: rgba(250, 228, 231, 0.8);
+    color: rgba(255, 89, 108, 0.8);
+}
+.datetime{
+    margin: 10px 10px 10px auto;
+}
+
+footer{
+    /*width: 100%;*/
+    /*height: 100%;*/
+    /*position: absolute;*/
+    /*padding-bottom: unset;*/
+    /*bottom: 0%;*/
+    margin-top: 10px;
+    height: 50px;
+    background: rgba(255, 255, 255, 0.8);
+    display: flex;
+    align-items: center;
+    border-start-start-radius: 10px;
+    border-start-end-radius: 10px;
+}
+
+@media screen and (min-width:900px) {
+    a{
+    padding: 5px 8px 5px 8px;
+    margin: 7px 15px 7px 10px;
+    }
+}

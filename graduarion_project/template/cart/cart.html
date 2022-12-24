@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block page-content %}
+<body>
+<h1>shopping cart will be here</h1>
+    <form>
+        {%csrf_token%}
+        {{form}}
+        <input type="submit" value="Buy">
+    </form>
+</body>
+{% endblock %}

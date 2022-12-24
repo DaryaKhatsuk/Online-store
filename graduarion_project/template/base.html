@@ -1,0 +1,48 @@
+{% load static %}
+<html lang="en">
+<head>
+    <title>PlortShop.Zz</title>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <style>
+        @font-face {
+            font-family: "Microsoft JhengHei";
+        }
+        *{
+            font-family: "Microsoft JhengHei", fantasy;
+        }
+        button{
+            font-size: large;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <img src="{% static 'images/Plorts_icon.png' %}" width="80px">
+        <a href="{% url 'base' %}"> Home </a>
+
+        {% if user.is_authenticated %}
+            <a href="{% url 'account' %}">{{user}}</a>
+            <a href="{% url 'cart' %}">Cart</a>
+            <a href="{% url 'logout' %}">Exit</a>
+        {% else %}
+            <a href="{% url 'registration' %}">Registration</a>
+            <a href="{% url 'account' %}">Account</a>
+        {% endif %}
+
+        <div class="datetime">
+            {% now "j/m/Y H:i:s" %}
+        </div>
+    </nav>
+
+    {% block page-content %}
+    {% endblock %}
+</body>
+<footer>
+     <a href='https://www.linkedin.com/in/daryakhatsuk/'>About me</a>
+     <a href='https://slimerancher.fandom.com/wiki/Slime_Rancher_Wiki'>About "Slime Ranger"</a>
+</footer>
+</html>
