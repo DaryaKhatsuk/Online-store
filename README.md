@@ -8,8 +8,8 @@ Only we have the freshest plorts from 'Far, Far Range'!
 
 ## For the project to work correctly:
 
-After cloning the project to your device, make sure that the database you need is set in the [settings.py]
-(https://github.com/DaryaKhatsuk/Online-store/blob/master/graduarion_project/graduarion_project/settings.py) 
+After cloning the project to your device, make sure that the database you need is set in 
+the [settings.py](https://github.com/DaryaKhatsuk/Online-store/blob/master/graduarion_project/graduarion_project/settings.py) 
 file, in *DATABASES*, the database you need is installed.
 
 In the [parser_for_bases.py](https://github.com/DaryaKhatsuk/Online-store/blob/master/graduarion_project/site1/management/commands/parser_for_bases.py) 
