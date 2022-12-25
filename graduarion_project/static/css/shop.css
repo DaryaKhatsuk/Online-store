@@ -28,6 +28,7 @@ h2{
 .plort{
     width: 30%;
     min-width: 263px;
+    max-width: 340px;
     min-height: 318px;
     height: max-content;
     background: rgba(255, 255, 255, 0.8);
@@ -50,6 +51,7 @@ h2{
     align-items: center;
     line-height: normal;
     text-align: center;
+    vertical-align: center;
 }
 
 .text a{

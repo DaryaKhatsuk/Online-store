@@ -16,3 +16,18 @@ class LoginForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ('username',)
+
+
+class ResetForm(forms.ModelForm):
+    email = forms.CharField(label='Email', widget=forms.EmailInput)
+
+    class Meta:
+        model = User
+        fields = ('email',)
+
+
+class CartForm(forms.ModelForm):
+    pass
+
+    class Meta:
+        pass

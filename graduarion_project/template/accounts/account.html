@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 {% extends 'base.html' %}
 {% load static %}
 {% block page-content %}
@@ -17,10 +18,27 @@
 
         {% else %}
             <form method="post">
-                {{form.as_p}}
                 {% csrf_token %}
+
+                <table>
+                    <tr>
+                        <td>{{ form.username.label_tag }}</td>
+                        <td>{{ form.username }}</td>
+                    </tr>
+
+                    <tr>
+                        <td>{{ form.password.label_tag }}</td>
+                        <td>{{ form.password }}</td>
+                    </tr>
+                </table>
+
                 <input type="submit" value="Enter">
             </form>
+
+        <div class="restore">
+            <a href="{% url 'password_reset' %}">Restore password</a>
+        </div>
+
         {% endif %}
     </div>
 </body>

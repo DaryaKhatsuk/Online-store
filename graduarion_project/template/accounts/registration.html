@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 {% extends 'base.html' %}
 {% load static %}
 {% block page-content %}
@@ -12,8 +13,34 @@
 <body>
     <div class="sect">
         <form method="post">
-            {{form.as_p}}
             {% csrf_token %}
+
+            <table>
+                    <tr>
+                        <td>{{ form.username.label_tag }}</td>
+                        <td>{{ form.username }}</td>
+                    </tr>
+                    <tr>
+                        <td>{{ form.help }}</td>
+                    </tr>
+                    <tr>
+                        <td>{{ form.first_name.label_tag }}</td>
+                        <td>{{ form.first_name }}</td>
+                    </tr>
+                    <tr>
+                        <td>{{ form.last_name.label_tag }}</td>
+                        <td>{{ form.last_name }}</td>
+                    </tr>
+                    <tr>
+                        <td>{{ form.email.label_tag }}</td>
+                        <td>{{ form.email }}</td>
+                    </tr>
+                    <tr>
+                        <td>{{ form.password.label_tag }}</td>
+                        <td>{{ form.password }}</td>
+                    </tr>
+                </table>
+
             <input type="submit" value="Registration">
         </form>
     </div>

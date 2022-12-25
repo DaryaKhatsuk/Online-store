@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 {% extends 'base.html' %}
 {% load static %}
 {% block page-content %}
@@ -13,7 +14,7 @@
     <div class="attention_mess">
     {% if user.is_authenticated %}
     {% else %}
-        <h3>To make purchases, you must log in or register.</h3>
+        <h3>To make purchases, you must register and log in.</h3>
     {% endif %}
     </div>
     <h2>Only we have the freshest plorts from 'Far, Far Range'!</h2>
@@ -21,14 +22,11 @@
     <div class="plort_load">
         {% for plort in plorts %}
         <div class='plort'>
-
                 <div class='text_title'>
                     <img src="{% static plort.imagePlort %}" height="100px">
                     <div class='text'>
                         <p><b>{{plort.plortName}}</b></p><br>
-
                         {% if user.is_authenticated %}
-
                             <a href="{% url 'cart' %}">In cart</a>
                             <a href="{% url 'cart' %}">Add cart</a>
                         {% else %}
@@ -42,9 +40,9 @@
                     <p>Rarity: {{plort.rarity}}</p>
                 </div>
                     <p>{{plort.description}}</p>
-
         </div>
         {% endfor %}
     </div>
+
 </body>
 {% endblock %}
