@@ -14,14 +14,14 @@
     <div class="sect">
         <form method="post">
             {% csrf_token %}
-
             <table>
                     <tr>
                         <td>{{ form.username.label_tag }}</td>
                         <td>{{ form.username }}</td>
                     </tr>
                     <tr>
-                        <td>{{ form.help }}</td>
+                        <td></td>
+                        <td>{{ form.username.help_text }}</td>
                     </tr>
                     <tr>
                         <td>{{ form.first_name.label_tag }}</td>
@@ -40,7 +40,6 @@
                         <td>{{ form.password }}</td>
                     </tr>
                 </table>
-
             <input type="submit" value="Registration">
         </form>
     </div>

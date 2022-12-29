@@ -5,7 +5,7 @@ import re
 class Command(BaseCommand):
     def handle(self, *args, **kwargs):
         file1 = []
-        with open('C:\\Users\\Foxy\\PycharmProjects\\GraduarionProject\\graduarion_project\\site1\\utils\\plorts.txt',
+        with open('site1\\utils\\plorts.txt',
                   'r', encoding='UTF-8') as f:
             for i in f.read().split('/n'):
                 file1.append(i)

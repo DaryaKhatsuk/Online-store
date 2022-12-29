@@ -17,3 +17,7 @@ class Plorts(models.Model):
         verbose_name = "Plort"
         verbose_name_plural = "Plorts"
         ordering = ('plortName',)
+
+
+class AccountModel(models.Model):
+    pass
