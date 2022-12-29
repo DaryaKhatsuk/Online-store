@@ -6,6 +6,11 @@
     border-end-end-radius: 10px;
 }
 
+.sect h3{
+    text-align: center;
+    padding-bottom: 8px;
+}
+
 label{
     text-transform: capitalize;
     text-align: justify;

@@ -12,8 +12,7 @@
 </head>
 <body>
     <div class="sect">
-            Someone asked for password reset for email {{ email }}. Follow the link below:
-            {{ protocol }}://{{ domain }}{% url 'password_reset_confirm' uidb64=uid token=token %}
+        <h3>This user is already registered. Try to recover your account.</h3>
     </div>
 </body>
 {% endblock %}
