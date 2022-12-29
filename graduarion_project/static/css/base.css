@@ -3,6 +3,7 @@
     margin: 0px;
     color: #192949;
 }
+
 body{
     margin-right: 10%;
     margin-left: 10%;
@@ -11,6 +12,7 @@ body{
     background-size: unset;
     background-repeat: repeat-y;
 }
+
 nav{
     display: flex;
     text-align: left;
@@ -21,10 +23,12 @@ nav{
     line-height: normal;
     min-width: 478px;
 }
+
 nav img{
     margin-left: 7px;
     margin-right: 4px;
 }
+
 a{
     background: rgba(195, 210, 246, 0.7);
     padding: 3px 8px 3px 8px;
@@ -32,10 +36,12 @@ a{
     border-radius: 10px;
     border: 1px solid rgba(25, 41, 73, 0.8);
 }
+
 a:active{
     background: rgba(250, 228, 231, 0.8);
     color: rgba(255, 89, 108, 0.8);
 }
+
 .datetime{
     margin: 10px 10px 10px auto;
 }
