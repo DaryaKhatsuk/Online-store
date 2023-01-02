@@ -25,7 +25,7 @@
         <img src="{% static 'images/Plorts_icon.png' %}" width="80px">
         <a href="{% url 'base' %}"> Home </a>
         {% if user.is_authenticated %}
-            <a href="{% url 'account' %}">{{user}}</a>
+            <a href="{% url 'account' %}">{{user.first_name}}</a>
             <a href="{% url 'cart' %}">Cart</a>
             <a href="{% url 'logout' %}">Exit</a>
         {% else %}

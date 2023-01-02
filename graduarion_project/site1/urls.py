@@ -1,6 +1,7 @@
 from django.urls import path
 from .views import shop_view, registration_view, error_frame_registration_view, login_view, logout_view, cart_view, \
-    error_frame_view, password_reset_view, password_reset_done_view
+    error_frame_view, password_reset_view, password_reset_done_view, password_reset_confirm_view, \
+    password_reset_complete_view, password_reset_email_view, delete_account_view, delete_account_done_view
 
 urlpatterns = [
     path('', shop_view, name='base'),
@@ -12,4 +13,13 @@ urlpatterns = [
     path('error_frame/', error_frame_view, name='error_frame'),
     path('account/password_reset/', password_reset_view, name='password_reset'),
     path('account/password_reset/password_reset_done/', password_reset_done_view, name='password_reset_done'),
+    path('account/password_reset/password_reset_done/password_reset_confirm/', password_reset_confirm_view,
+         name='password_reset_confirm'),
+    path('account/password_reset/password_reset_done/password_reset_confirm/password_reset_email/',
+         password_reset_email_view, name='password_reset_email'),
+    path('password_reset_complete/', password_reset_complete_view, name='password_reset_complete'),
+    path('delete_account/', delete_account_view, name='delete_account'),
+    path('delete_account/delete_account_done/', delete_account_done_view, name='delete_account_done'),
+
+
 ]

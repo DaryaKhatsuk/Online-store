@@ -13,9 +13,28 @@
 <body>
     <div class="sect">
         {% if user.is_authenticated %}
+        <table>
+            <tr>
+                <td>Username:</td>
+                <td>{{ user }}</td>
+            </tr>
 
-        <h1>account will be here</h1>
+            <tr>
+                <td>First name:</td>
+                <td>{{ user.first_name }}</td>
+            </tr>
+            <tr>
+                <td>Last name:</td>
+                <td>{{ user.last_name }}</td>
+            </tr>
+            <tr>
+                <td>Email:</td>
+                <td>{{ user.email }}</td>
+            </tr>
 
+        </table>
+        <a href="{% url 'delete_account' %}">Delete account</a>
+        <p>Your orders</p>
         {% else %}
             <form method="post">
                 {% csrf_token %}

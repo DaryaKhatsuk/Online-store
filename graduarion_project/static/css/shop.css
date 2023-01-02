@@ -24,6 +24,7 @@ h2{
     align-content: stretch;
     flex-wrap: wrap;
 }
+
 .plort{
     width: 30%;
     min-width: 263px;
@@ -40,6 +41,7 @@ h2{
     align-content: space-around;
     align-items: center;
 }
+
 .text_title img{
     margin-right: 8px;
 }

@@ -2,6 +2,7 @@ from django.core.management.base import BaseCommand
 from site1.models import Plorts
 import re
 
+
 class Command(BaseCommand):
     def handle(self, *args, **kwargs):
         file1 = []

@@ -19,5 +19,5 @@ class Plorts(models.Model):
         ordering = ('plortName',)
 
 
-class AccountModel(models.Model):
+class CartModel(models.Model):
     pass
