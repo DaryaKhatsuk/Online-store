@@ -1,16 +1,12 @@
-import token
-
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
-from django.contrib.auth.tokens import PasswordResetTokenGenerator
-from django.http import HttpResponse, HttpResponseRedirect, Http404, HttpResponsePermanentRedirect, HttpResponseNotFound
+from django.http import HttpResponseNotFound
 from django.shortcuts import render, redirect
-# from management.commands.from_emails import EMAIL_HOST_USER, EMAIL_HOST_PASSWORD, FORM_EMAIL
-from django.core.mail import send_mail, mail_admins, EmailMessage
+from django.core.mail import send_mail, EmailMessage, get_connection
 from .forms import RegistrationForm, LoginForm, ResetForm, PasswordChangeForm, AccountDelForm
 from .models import Plorts
-from django.conf import settings, global_settings
-from django.views.generic import DeleteView, UpdateView
+from django.views.generic import DeleteView
+from .create_password import EMAIL_HOST_PASSWORD, EMAIL_HOST_USER, FORM_EMAIL
 
 """
 Errors
@@ -82,12 +78,10 @@ def password_reset_view(request):
         for i in User.objects.values('id', 'email', 'username', 'first_name', 'password', 'last_login'):
             # сравнение email и username отправленные пользователем с базой
             if user_chek('email') == i.get('email') and user_chek('username') == i.get('username'):
+                with get_connection() as connection:
 
-                send_mail(subject='Reset password', message=r"http://127.0.0.1:8000/account/password_reset/"
-                                                            r"password_reset_done/password_reset_confirm/",
-                          from_email=settings.FORM_EMAIL, auth_user=settings.EMAIL_HOST_USER,
-                          auth_password=settings.EMAIL_HOST_PASSWORD, recipient_list=[i.get('email')],
-                          fail_silently=False)
+                    EmailMessage(subject='Reset password', body=f"Your new passw: 1234",
+                                 from_email=FORM_EMAIL, to=[i.get('email')], connection=connection).send()
                 # print(i.get('last_login'), i.get('email'), i.get('id'), i.get('password'))
                 # token_new_passw = PasswordResetTokenGenerator().make_token(user=i)
                 # send_mail(subject='Reset password', message=f"Hello, {i.get('first_name')}. \n"
