@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+{% load static %}
+{% block page-content %}
+<head>
+    <title>PlortShop.Zz</title>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="{% static 'css/account.css' %}">
+</head>
+<body>
+    <div class="sect">
+             <form method="post">
+                {% csrf_token %}
+
+                <table>
+                    <tr>
+                        <p>Enter password to delete account</p>
+                    </tr>
+                    <tr>
+                        <td>{{ form.password.label_tag }}</td>
+                        <td>{{ form.password }}</td>
+                    </tr>
+                </table>
+
+                <input type="submit" value="Enter">
+            </form>
+    </div>
+</body>
+{% endblock %}
