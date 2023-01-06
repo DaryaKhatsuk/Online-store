@@ -45,3 +45,16 @@ class Cart(models.Model):
         verbose_name = "Cart"
         verbose_name_plural = "Carts"
         ordering = ('cartPlort',)
+
+
+class Purchase(models.Model):
+    idPurchase = models.AutoField(primary_key=True, verbose_name='Key')
+    boughtPlort = models.CharField(max_length=30, verbose_name='Plort')
+    pricePlort = models.IntegerField(verbose_name='Price')
+    boughtQuantity = models.IntegerField(verbose_name='Quantity')
+    totalPrice = models.IntegerField(verbose_name='Total price')
+
+    deliveryAddress = models.CharField(max_length=30, verbose_name='Delivery address')
+    dateDelivery = models.DateField()
+
+    currentCustomer = models.CharField(max_length=120, verbose_name='Customer')

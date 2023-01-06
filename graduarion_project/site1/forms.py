@@ -33,15 +33,6 @@ class ResetForm(forms.ModelForm):
         fields = ('username', 'email')
 
 
-# class PasswordChangeForm(forms.ModelForm):
-#     new_password_1 = forms.CharField(label='Enter a new password', widget=forms.PasswordInput)
-#     new_password_2 = forms.CharField(label='Repeat new password', widget=forms.PasswordInput)
-#
-#     class Meta:
-#         model = User
-#         fields = ('new_password_1', 'new_password_2')
-
-
 class AccountDelForm(forms.ModelForm):
     email = forms.CharField(label='Email', widget=forms.EmailInput)
 
