@@ -4,7 +4,7 @@ from django.http import HttpResponseNotFound
 from django.shortcuts import render, redirect
 from django.core.mail import EmailMessage, get_connection
 from .forms import RegistrationForm, LoginForm, ResetForm, AccountDelForm
-from .models import Plorts, Cart
+from .models import Plorts
 from django.views.generic import DeleteView, UpdateView
 from .helper_file import FORM_EMAIL, create
 
@@ -38,6 +38,7 @@ Base view
 
 def shop_view(request):
     try:
+
         context = {
             'user': request.user,
             'plorts': Plorts.objects.all(),
@@ -47,26 +48,19 @@ def shop_view(request):
         return redirect('error_frame')
 
 
-def cart_view(request):
-    try:
-        context = {
-
-        }
-        return render(request, 'cart/cart.html', context)
-    except:
-        return redirect('error_frame')
+# def cart_view(request):
+#     try:
+#         context = {
+#
+#         }
+#         return render(request, 'cart/cart.html', context)
+#     except:
+#         return redirect('error_frame')
 
 
 """
 Password reset view
 """
-
-
-# def password_reset_email_view(request):
-#     context = {
-#
-#     }
-#     return render(request, 'errors/error_frame_registration.html', context)
 
 
 def password_reset_view(request):
@@ -89,14 +83,6 @@ def password_reset_view(request):
                         set_user.save()
 
                         print(f"Пользователь с id и username: {i.get('id'), user_chek('username')}, сменил пароль")
-                    # print(i.get('last_login'), i.get('email'), i.get('id'), i.get('password'))
-                    # token_new_passw = PasswordResetTokenGenerator().make_token(user=i)
-                    # send_mail(subject='Reset password', message=f"Hello, {i.get('first_name')}. \n"
-                    #                                             f"You can reset your password using this link: "
-                    #                                             f"{token_new_passw}",
-                    #           from_email=settings.FORM_EMAIL, auth_user=settings.EMAIL_HOST_USER,
-                    #           auth_password=settings.EMAIL_HOST_PASSWORD, recipient_list=[i.get('email')],
-                    #           fail_silently=False)
 
                     return redirect('password_reset_done')
                 # только если coun_users будет равно количеству записей в базе и до этого не найдется запись,
@@ -120,29 +106,6 @@ def password_reset_done_view(request):
         return render(request, 'accounts/password_reset/password_reset_done.html', context)
     except:
         return redirect('error_frame')
-
-
-# def password_reset_confirm_view(request):
-#     try:
-#         if request.method == "POST":
-#             user_form = PasswordChangeForm(data=request.POST)
-#             if user_form.data.get('new_password_1') == user_form.data.get('new_password_2'):
-#                 return redirect('password_reset_complete')
-#         context = {
-#             'form': PasswordChangeForm(),
-#         }
-#         return render(request, 'accounts/password_reset/password_reset_confirm.html', context)
-#     except:
-#         return redirect('error_frame')
-
-
-# def password_reset_complete_view(request):
-#     try:
-#         context = {
-#         }
-#         return render(request, 'accounts/password_reset/password_reset_complete.html', context)
-#     except:
-#         return redirect('error_frame')
 
 
 """
@@ -214,14 +177,15 @@ Delete account
 def delete_account_view(request):
     try:
         if request.method == "POST":
+            print(request.user.first_name)
             user_form = AccountDelForm(data=request.POST)
-            user_base_id = User.objects.values('id', 'email', 'first_name')
+            user_base_id = User.objects.values('id', 'email')
             coun_users = 0
             for i in user_base_id:
                 coun_users += 1
                 if user_form.data.get('email') == i.get('email'):
                     with get_connection() as connection:
-                        EmailMessage(subject='Delete account', body=f"Dear {i.get('first_name')}, your account on "
+                        EmailMessage(subject='Delete account', body=f"Dear {request.user.first_name}, your account on "
                                                                     f"PlortShop.Zz as deleted.",
                                      from_email=FORM_EMAIL, to=[i.get('email')], connection=connection).send()
                         user = User.objects.get(id=i.get('id'))
