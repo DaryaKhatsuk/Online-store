@@ -11,6 +11,11 @@
     <link rel="stylesheet" href="{% static 'css/shop.css' %}">
 </head>
 <body>
+    <div class="yandex_maps" >
+        <script src="https://api-maps.yandex.ru/2.1/?apikey=cb3984e0-b807-4d0c-b6a8-368fb26af69a&lang=ru_RU"
+                type="text/javascript">
+        </script>
+    </div>
     <div class="attention_mess">
     {% if user.is_authenticated %}
     {% else %}
@@ -27,8 +32,8 @@
                     <div class='text'>
                         <p><b>{{plort.plortName}}</b></p><br>
                         {% if user.is_authenticated %}
-                            <a href="{% url 'cart' %}">In cart</a>
-                            <a href="{% url 'cart' %}">Add cart</a>
+                            <button href="{% url 'cart' %}">In cart</button>
+                            <button href="{% url 'cart' %}">Add cart</button>
                         {% else %}
                         {% endif %}
                     </div>

@@ -3,10 +3,12 @@ from django.contrib.auth.models import User, make_password
 from django.http import HttpResponseNotFound
 from django.shortcuts import render, redirect
 from django.core.mail import EmailMessage, get_connection
-from .forms import RegistrationForm, LoginForm, ResetForm, AccountDelForm
-from .models import Plorts
+from .forms import RegistrationForm, LoginForm, ResetForm, AccountDelForm, CartForm
+from .models import Plorts, Cart, Purchase
 from django.views.generic import DeleteView, UpdateView
 from .helper_file import FORM_EMAIL, create
+import psycopg2
+
 
 """
 Errors
@@ -37,25 +39,37 @@ Base view
 
 
 def shop_view(request):
-    try:
-
+    # try:
+        if request.method == 'GET':
+            plort = Plorts.imagePlort
+            cost = Plorts.price
+            append = 1
+            con = psycopg2.connect(database="post")
+            print("Database opened successfully")
+            cur = con.cursor()
+            cur.execute(f'INSERT INTO CART (cartPlort, imagePlort, cartPrice, cartQuantity, cartCustomer) '
+                        'VALUES (Plorts.plortName, Plorts.imagePlort, Plorts.price, 1, request.user.id)')
+            con.commit()
+            print("Record inserted successfully")
+            con.close()
         context = {
             'user': request.user,
             'plorts': Plorts.objects.all(),
         }
         return render(request, 'shop/shop.html', context)
+    # except:
+    #     return redirect('error_frame')
+
+
+def cart_view(request):
+    try:
+        context = {
+            'carts': Cart(),
+            'form': CartForm(),
+        }
+        return render(request, 'cart/cart.html', context)
     except:
         return redirect('error_frame')
-
-
-# def cart_view(request):
-#     try:
-#         context = {
-#
-#         }
-#         return render(request, 'cart/cart.html', context)
-#     except:
-#         return redirect('error_frame')
 
 
 """
