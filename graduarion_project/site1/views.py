@@ -7,7 +7,7 @@ from .forms import RegistrationForm, LoginForm, ResetForm, AccountDelForm, CartF
 from .models import Plorts, Cart, Purchase
 from django.views.generic import DeleteView, UpdateView
 from .helper_file import FORM_EMAIL, create
-import psycopg2
+from django.contrib.sessions.middleware import SessionMiddleware, settings
 
 
 """
@@ -35,6 +35,10 @@ def error_frame_registration_view(request):
 
 """
 Base view
+
+using session: request.session['foo'] = 'bar'    # задать переменную в сессии
+               print(request.session.get('foo'))    # Извлечение session key
+               del request.session['foo']    # Удалить key, хранящийся в session
 """
 
 
@@ -52,6 +56,21 @@ def shop_view(request):
         return render(request, 'shop/shop.html', context)
     # except:
     #     return redirect('error_frame')
+
+
+def card_plort(request):
+    try:
+        if request.method == 'POST':
+            plort = Plorts.imagePlort
+            cost = Plorts.price
+            append = 1
+
+        context = {
+            'user': request.user,
+        }
+        return render(request, 'shop/shop.html', context)
+    except:
+        return redirect('error_frame')
 
 
 def cart_view(request):
@@ -158,10 +177,13 @@ def registration_view(request):
 def login_view(request):
     try:
         if request.method == "POST":
+            request.session['shop'] = 'buy'
             user_form = RegistrationForm(data=request.POST)
             user = authenticate(username=user_form.data.get('username'),
                                 password=user_form.data.get('password'))
             login(request, user)
+            if request.session.is_empty():
+                request.session['shop'] = 'buy'
             return redirect('base')
         context = {
             'form': LoginForm(),

@@ -17,8 +17,31 @@
 
 
             <form method="post">
-                {{form.as_p}}
+<!--                {{form.as_p}}-->
                 {% csrf_token %}
+                <table>
+                    <tr>
+                        <td>{{ form.cartQuantity.label_tag }}</td>
+                        <td>{{ form.cartQuantity }}</td>
+                    </tr>
+                    <tr>
+                        <td>{{ form.dateDelivery.label_tag }}</td>
+                        <td>{{ form.dateDelivery }}</td>
+                    </tr>
+                    <tr>
+                        <td>{{ form.deliveryAddress.label_tag }}</td>
+                        <td>{{ form.deliveryAddress }}</td>
+                    </tr>
+<!--                    <tr>-->
+<!--                        <td>{{ form.deliveryAddress.label_tag }}</td>-->
+<!--                        <td>{{ form.deliveryAddress.label_tag }}</td>-->
+<!--                    </tr>-->
+                    </table>
+                    <div>
+                        {{ form.ConsentDataProcessing.label_tag }}
+                        {{ form.ConsentDataProcessing }}
+                    </div>
+
                 <input type="submit" value="Buy">
             </form>
 

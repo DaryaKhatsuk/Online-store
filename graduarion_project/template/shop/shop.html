@@ -28,10 +28,10 @@
                 <div class='text_title'>
                     <img src="{% static plort.imagePlort %}" height="100px">
                     <div class='text'>
-                        <p><b>{{plort.plortName}}</b></p><br>
+                        <p><b><a href="{% url 'card_plort' %}">{{plort.plortName}}</a></b></p><br>
                         {% if user.is_authenticated %}
-                            <button href="{% url 'cart' %}">In cart</button>
-                            <button href="{% url 'cart' %}">Add cart</button>
+                            <a href="{% url 'cart' %}">In cart</a>
+                            <a href="{% url 'cart' %}">Add cart</a>
                         {% else %}
                         {% endif %}
                     </div>

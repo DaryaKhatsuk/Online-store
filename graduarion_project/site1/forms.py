@@ -41,6 +41,10 @@ class AccountDelForm(forms.ModelForm):
         fields = ('email',)
 
 
+# class ButtonAddForm(forms.ModelForm):
+#     buttonAdd = forms.B
+
+
 class CartForm(forms.ModelForm):
     deliveryAddress = forms.CharField(label='Delivery address', max_length=115)
     ConsentDataProcessing = forms.NullBooleanField(label='Consent to data processing')
