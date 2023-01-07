@@ -59,6 +59,23 @@ h2{
     margin: 2px 3px 1px 3px;
     border-radius: 10px;
 }
+.text b a{
+    background: none;
+    border: none;
+    text-decoration-line: none;
+}
+.text button{
+    background: rgba(195, 210, 246, 0.7);
+    padding: 3px 8px 3px 8px;
+    margin: 7px;
+    border-radius: 10px;
+    border: 1px solid rgba(25, 41, 73, 0.8);
+}
+
+.text button:active{
+    background: rgba(250, 228, 231, 0.8);
+    color: rgba(255, 89, 108, 0.8);
+}
 
 .text{
     margin-bottom: 8px;
@@ -68,5 +85,10 @@ h2{
     .text a{
     padding: 5px 5px 5px 5px;
     margin: 5px 0px 0px 5px;
+    }
+
+    .text button{
+        padding: 5px 5px 5px 5px;
+        margin: 5px 0px 0px 5px;
     }
 }

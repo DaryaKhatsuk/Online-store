@@ -2,7 +2,6 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.functions import datetime
 
-
 class Plorts(models.Model):
     idPlort = models.AutoField(primary_key=True, verbose_name='Key')
     plortName = models.CharField(max_length=30, verbose_name='Plort name')
