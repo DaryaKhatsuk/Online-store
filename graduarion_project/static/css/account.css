@@ -41,7 +41,6 @@ form{
 
 input {
     text-align: right;
-    /*margin-block-start: 7px;*/
     margin-block-end: 7px;
     background: rgba(255, 255, 255, 0.8);
     border-radius: 10px;

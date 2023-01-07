@@ -40,18 +40,11 @@ Base view
 
 def shop_view(request):
     # try:
-        if request.method == 'GET':
+        if request.method == 'POST':
             plort = Plorts.imagePlort
             cost = Plorts.price
             append = 1
-            con = psycopg2.connect(database="post")
-            print("Database opened successfully")
-            cur = con.cursor()
-            cur.execute(f'INSERT INTO CART (cartPlort, imagePlort, cartPrice, cartQuantity, cartCustomer) '
-                        'VALUES (Plorts.plortName, Plorts.imagePlort, Plorts.price, 1, request.user.id)')
-            con.commit()
-            print("Record inserted successfully")
-            con.close()
+
         context = {
             'user': request.user,
             'plorts': Plorts.objects.all(),
@@ -62,14 +55,14 @@ def shop_view(request):
 
 
 def cart_view(request):
-    try:
-        context = {
-            'carts': Cart(),
-            'form': CartForm(),
-        }
-        return render(request, 'cart/cart.html', context)
-    except:
-        return redirect('error_frame')
+    # try:
+    context = {
+        'carts': Cart(),
+        'form': CartForm(),
+    }
+    return render(request, 'cart/cart.html', context)
+    # except:
+    #     return redirect('error_frame')
 
 
 """
