@@ -11,24 +11,22 @@
     <link rel="stylesheet" href="{% static 'css/cart.css' %}">
 </head>
 <body>
-    {% if user.is_authenticated %}
-        <div class="cart">
+    <div class="cart">
+       {% if user.is_authenticated %}
 
-            {% for cart in carts %}
-                 <p>{{cart.plortName}}</p>
-                 <p>Price: {{cart.price}} newbucks</p>
-                 <p>In stock: {{cart.quantity}}</p>
 
-                <form method="post">
-                    {{form.as_p}}
-                    {% csrf_token %}
-                    <input type="submit" value="Buy">
-                </form>
-            {% endfor %}
-        </div>
-    {% else %}
-        <p>To make purchases, you must register and log in.</p>
-    {% endif %}
+
+            <form method="post">
+                {{form.as_p}}
+                {% csrf_token %}
+                <input type="submit" value="Buy">
+            </form>
+
+        {% else %}
+            <p>To make purchases, you must register and log in.</p>
+        {% endif %}
+    </div>
+
 
 
 </body>
