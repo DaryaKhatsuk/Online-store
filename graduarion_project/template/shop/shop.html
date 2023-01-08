@@ -28,7 +28,7 @@
                 <div class='text_title'>
                     <img src="{% static plort.imagePlort %}" height="100px">
                     <div class='text'>
-                        <p><b><a href="{% url 'card_plort' %}">{{plort.plortName}}</a></b></p><br>
+                        <p><b><a href="{% url 'card_plort' plort.idPlort %}">{{plort.plortName}}</a></b></p><br>
                         {% if user.is_authenticated %}
                             <a href="{% url 'cart' %}">In cart</a>
                             <a href="{% url 'cart' %}">Add cart</a>

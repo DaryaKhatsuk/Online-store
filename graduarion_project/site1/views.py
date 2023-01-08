@@ -3,7 +3,7 @@ from django.contrib.auth.models import User, make_password
 from django.http import HttpResponseNotFound
 from django.shortcuts import render, redirect
 from django.core.mail import EmailMessage, get_connection
-from .forms import RegistrationForm, LoginForm, ResetForm, AccountDelForm, CartForm
+from .forms import RegistrationForm, LoginForm, ResetForm, AccountDelForm, CartForm, PurchaseForm
 from .models import Plorts, Cart, Purchase
 from django.views.generic import DeleteView, UpdateView
 from .helper_file import FORM_EMAIL, create
@@ -58,17 +58,18 @@ def shop_view(request):
     #     return redirect('error_frame')
 
 
-def card_plort(request):
+def card_plort(request, num):
     try:
-        if request.method == 'POST':
-            plort = Plorts.imagePlort
-            cost = Plorts.price
-            append = 1
+        # if request.method == 'POST':
+        #     plort = Plorts.imagePlort
+        #     cost = Plorts.price
+        #     append = 1
 
         context = {
             'user': request.user,
+            'plorts': Plorts.objects.filter(idPlort=num)
         }
-        return render(request, 'shop/shop.html', context)
+        return render(request, 'shop/card_plort.html', context)
     except:
         return redirect('error_frame')
 
@@ -76,8 +77,8 @@ def card_plort(request):
 def cart_view(request):
     # try:
     context = {
-        'carts': Cart(),
-        'form': CartForm(),
+        'carts': Purchase(),
+        'form': PurchaseForm(),
     }
     return render(request, 'cart/cart.html', context)
     # except:

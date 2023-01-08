@@ -60,8 +60,8 @@ h2{
     border-radius: 10px;
 }
 .text b a{
-    background: none;
-    border: none;
+    /*background: none;*/
+    /*border: none;*/
     text-decoration-line: none;
 }
 .text button{

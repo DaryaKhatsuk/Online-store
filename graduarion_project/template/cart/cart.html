@@ -21,8 +21,8 @@
                 {% csrf_token %}
                 <table>
                     <tr>
-                        <td>{{ form.cartQuantity.label_tag }}</td>
-                        <td>{{ form.cartQuantity }}</td>
+                        <td>{{ form.boughtQuantity.label_tag }}</td>
+                        <td>{{ form.boughtQuantity }}</td>
                     </tr>
                     <tr>
                         <td>{{ form.dateDelivery.label_tag }}</td>
@@ -37,10 +37,10 @@
 <!--                        <td>{{ form.deliveryAddress.label_tag }}</td>-->
 <!--                    </tr>-->
                     </table>
-                    <div>
-                        {{ form.ConsentDataProcessing.label_tag }}
-                        {{ form.ConsentDataProcessing }}
-                    </div>
+<!--                    <div>-->
+<!--                        {{ form.ConsentDataProcessing.label_tag }}-->
+<!--                        {{ form.ConsentDataProcessing }}-->
+<!--                    </div>-->
 
                 <input type="submit" value="Buy">
             </form>
