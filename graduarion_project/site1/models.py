@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.functions import datetime
 
+
 class Plorts(models.Model):
     idPlort = models.AutoField(primary_key=True, verbose_name='Key')
     plortName = models.CharField(max_length=30, verbose_name='Plort name')
@@ -55,5 +56,6 @@ class Purchase(models.Model):
 
     deliveryAddress = models.CharField(max_length=30, verbose_name='Delivery address')
     dateDelivery = models.DateField()
+    dateOrder = models.DateField(unique_for_date=datetime.timezone.now, null=True)
 
     currentCustomer = models.CharField(max_length=120, verbose_name='Customer')

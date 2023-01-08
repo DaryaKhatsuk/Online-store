@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.models import User
-from .models import Cart
+from .models import Cart, Purchase
 
 
 class RegistrationForm(forms.ModelForm):
@@ -10,10 +10,11 @@ class RegistrationForm(forms.ModelForm):
     first_name = forms.CharField(label='First name', max_length=50)
     last_name = forms.CharField(label='Last name', max_length=50)
     email = forms.CharField(label='Email', max_length=50, widget=forms.EmailInput)
+    ConsentDataProcessing = forms.NullBooleanField(label='Consent to data processing')
 
     class Meta:
         model = User
-        fields = ('username', 'first_name', 'last_name', 'email', 'password')
+        fields = ('username', 'first_name', 'last_name', 'email', 'ConsentDataProcessing', 'password')
 
 
 class LoginForm(forms.ModelForm):
@@ -41,10 +42,6 @@ class AccountDelForm(forms.ModelForm):
         fields = ('email',)
 
 
-# class ButtonAddForm(forms.ModelForm):
-#     buttonAdd = forms.B
-
-
 class CartForm(forms.ModelForm):
     deliveryAddress = forms.CharField(label='Delivery address', max_length=115)
     ConsentDataProcessing = forms.NullBooleanField(label='Consent to data processing')
@@ -55,3 +52,14 @@ class CartForm(forms.ModelForm):
     class Meta:
         model = Cart
         fields = ('deliveryAddress', 'ConsentDataProcessing', 'cartQuantity', 'dateDelivery', 'dateOrder')
+
+
+class PurchaseForm(forms.ModelForm):
+    boughtQuantity = forms.RadioSelect()
+    deliveryAddress = forms.CharField(max_length=115, label='Delivery address')
+    dateDelivery = forms.DateField(label='Date delivery')
+    dateOrder = forms.SplitHiddenDateTimeWidget()
+
+    class Meta:
+        model = Purchase
+        fields = ('boughtQuantity', 'deliveryAddress', 'dateDelivery', 'dateOrder')

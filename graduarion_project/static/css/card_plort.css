@@ -1,0 +1,20 @@
+nav{
+    border-end-start-radius: 10px;
+    border-end-end-radius: 10px;
+}
+
+.sect{
+    margin: 8px 0px 0px 0px;
+    padding: 4px 8px 8px 8px;
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.8);
+}
+
+.sect a{;
+    margin: 0px 8px 0px 0px;
+    /*padding: 10px;*/
+}
+table{
+    margin-bottom: 8px;
+}
+
