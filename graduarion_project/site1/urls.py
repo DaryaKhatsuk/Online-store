@@ -16,6 +16,6 @@ urlpatterns = [
     path('error_frame/', error_frame_view, name='error_frame'),
     path('account/password_reset/', password_reset_view, name='password_reset'),
     path('account/password_reset/password_reset_done/', password_reset_done_view, name='password_reset_done'),
-    path('delete_account/', delete_account_view, name='delete_account'),
-    path('delete_account/delete_account_done/', delete_account_done_view, name='delete_account_done'),
+    path('account/delete_account/', delete_account_view, name='delete_account'),
+    path('account/delete_account/delete_account_done/', delete_account_done_view, name='delete_account_done'),
 ]

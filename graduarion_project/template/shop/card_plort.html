@@ -30,6 +30,7 @@
                     </tr>
                 </tbody>
             </table>
+
             <table>
                 <tr>
                     <td><p>Price: &#160;{{plort.price}} newbucks</p></td>
@@ -47,8 +48,8 @@
                 </tr>
             </table>
         {% endfor %}
-        <div class="comment">
 
+        <div class="comment">
             {% if user.is_authenticated %}
             <form method="post">
                 {% csrf_token %}
@@ -66,8 +67,22 @@
             <p>Log in to leave a comment</p>
             {% endif %}
         </div>
+
         <div class="comments_for_base">
+            {% for comment in comments %}
+                <table>
+                    <tr>
+                        <td>User:&#160;{{comment.userName}}</td>
+                    </tr>
+                    <tr>
+                        <td>Comment:&#160;{{comment.UserText}}</td>
+                    </tr>
+                    <tr>
+                        <td>Date:&#160;{{comment.dateOrder}}</td>
+                </table>
+            {% endfor %}
         </div>
+
     </div>
 </body>
 {% endblock %}

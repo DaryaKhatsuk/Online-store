@@ -228,22 +228,15 @@ Delete account
 def delete_account_view(request):
     try:
         if request.method == "POST":
-            print(request.user.first_name)
             user_form = AccountDelForm(data=request.POST)
-            user_base_id = User.objects.values('id', 'email')
-            coun_users = 0
-            for i in user_base_id:
-                coun_users += 1
-                if user_form.data.get('email') == i.get('email'):
-                    with get_connection() as connection:
-                        EmailMessage(subject='Delete account', body=f"Dear {request.user.first_name}, your account on "
-                                                                    f"PlortShop.Zz as deleted.",
-                                     from_email=FORM_EMAIL, to=[i.get('email')], connection=connection).send()
-                        user = User.objects.get(id=i.get('id'))
-                        user.delete()
-                        return redirect('delete_account_done')
-                elif coun_users == len(user_base_id):
-                    return redirect('error_frame')
+            if user_form.is_valid() and user_form.data.get('email') == request.user.email:
+                with get_connection() as connection:
+                    EmailMessage(subject='Delete account', body=f"Dear {request.user.first_name}, your account on "
+                                                                f"PlortShop.Zz as deleted.",
+                                 from_email=FORM_EMAIL, to=[request.user.email], connection=connection).send()
+                    user = User.objects.get(id=request.user.id)
+                    user.delete()
+                    return redirect('delete_account_done')
         context = {
             'form': AccountDelForm(),
         }
