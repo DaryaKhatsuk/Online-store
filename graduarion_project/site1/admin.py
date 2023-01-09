@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Plorts, Cart, Purchase
+from .models import Plorts, Cart, Purchase, Comments
 
 
 @admin.register(Plorts)
@@ -23,3 +23,12 @@ class PurchaseAdmin(admin.ModelAdmin):
                     'dateDelivery', 'currentCustomer')
     list_filter = ('totalPrice', 'deliveryAddress', 'dateDelivery', 'currentCustomer')
     search_fields = ('totalPrice', 'deliveryAddress', 'dateDelivery', 'currentCustomer')
+
+
+@admin.register(Comments)
+class CommentsAdmin(admin.ModelAdmin):
+    list_display = ('idComment', 'idPlort', 'idUser', 'UserText')
+    list_filter = ('idPlort', 'idUser')
+    search_fields = ('idPlort', 'idUser')
+
+

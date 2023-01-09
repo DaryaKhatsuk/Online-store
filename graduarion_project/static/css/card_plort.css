@@ -3,18 +3,51 @@ nav{
     border-end-end-radius: 10px;
 }
 
+/*.text_title{*/
+/*    -webkit-border-horizontal-spacing: 88px;*/
+/*}*/
+
+.sect b{
+    margin-left: 38px;
+}
+
 .sect{
     margin: 8px 0px 0px 0px;
     padding: 4px 8px 8px 8px;
     border-radius: 10px;
     background-color: rgba(255, 255, 255, 0.8);
+    min-width: 478px;
 }
 
-.sect a{;
-    margin: 0px 8px 0px 0px;
-    /*padding: 10px;*/
+.sect a{
+    margin: 8px 8px 0px 0px;
 }
+
 table{
     margin-bottom: 8px;
 }
 
+.text{
+    text-align: justify;
+}
+
+input{
+    text-align: right;
+    margin-block-start: 7px;
+    margin-block-end: 7px;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 10px;
+    padding: 5px;
+    border: 1px solid rgba(25, 41, 73, 0.8);
+}
+
+input:active{
+    background: rgba(250, 228, 231, 0.8);
+    color: rgba(255, 89, 108, 0.8);
+}
+
+.comments_for_base table{
+    background: rgba(195, 210, 246, 0.7);
+    padding: 8px;
+    border-radius: 10px;
+}

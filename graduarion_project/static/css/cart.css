@@ -33,3 +33,8 @@ input{
     padding: 5px;
     border: 1px solid rgba(25, 41, 73, 0.8);
 }
+
+input:active{
+    background: rgba(250, 228, 231, 0.8);
+    color: rgba(255, 89, 108, 0.8);
+}

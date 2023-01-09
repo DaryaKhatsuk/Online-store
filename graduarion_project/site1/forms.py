@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.models import User
-from .models import Cart, Purchase
+from .models import Cart, Purchase, Comments
 
 
 class RegistrationForm(forms.ModelForm):
@@ -47,19 +47,25 @@ class CartForm(forms.ModelForm):
     ConsentDataProcessing = forms.NullBooleanField(label='Consent to data processing')
     cartQuantity = forms.RadioSelect()
     dateDelivery = forms.DateField(label='Date delivery')
-    dateOrder = forms.SplitHiddenDateTimeWidget()
 
     class Meta:
         model = Cart
-        fields = ('deliveryAddress', 'ConsentDataProcessing', 'cartQuantity', 'dateDelivery', 'dateOrder')
+        fields = ('deliveryAddress', 'ConsentDataProcessing', 'cartQuantity', 'dateDelivery')
 
 
 class PurchaseForm(forms.ModelForm):
     boughtQuantity = forms.RadioSelect()
     deliveryAddress = forms.CharField(max_length=115, label='Delivery address')
     dateDelivery = forms.DateField(label='Date delivery')
-    dateOrder = forms.SplitHiddenDateTimeWidget()
 
     class Meta:
         model = Purchase
-        fields = ('boughtQuantity', 'deliveryAddress', 'dateDelivery', 'dateOrder')
+        fields = ('boughtQuantity', 'deliveryAddress', 'dateDelivery')
+
+
+class CommentsForm(forms.ModelForm):
+    UserText = forms.CharField(max_length=1024, label='Comment', widget=forms.Textarea)
+
+    class Meta:
+        model = Comments
+        fields = ('UserText',)

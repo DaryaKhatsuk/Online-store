@@ -26,14 +26,16 @@ h2{
 }
 
 .plort{
-    width: 30%;
-    min-width: 263px;
-    max-width: 340px;
-    min-height: 318px;
-    height: max-content;
+    /*width: 30%;*/
+    width: 260px;
+    min-width: 250px;
+    height: 165px;
+    /*max-width: 340px;*/
+    /*min-height: 318px;*/
+    /*height: max-content;*/
     background: rgba(255, 255, 255, 0.8);
     color: rgba(255, 89, 108, 0.8);
-    border-radius:15px;
+    border-radius:10px;
     text-align: justify;
     padding: 8px;
     margin-top: 8px;
@@ -64,15 +66,8 @@ h2{
     /*border: none;*/
     text-decoration-line: none;
 }
-.text button{
-    background: rgba(195, 210, 246, 0.7);
-    padding: 3px 8px 3px 8px;
-    margin: 7px;
-    border-radius: 10px;
-    border: 1px solid rgba(25, 41, 73, 0.8);
-}
 
-.text button:active{
+.text a:active{
     background: rgba(250, 228, 231, 0.8);
     color: rgba(255, 89, 108, 0.8);
 }
