@@ -1,9 +1,15 @@
-.sect{
-    min-width: 478px;
-    margin-bottom: 15px;
-    background: rgba(255, 255, 255, 0.8);
+nav{
     border-end-start-radius: 10px;
     border-end-end-radius: 10px;
+}
+
+.sect{
+    min-width: 478px;
+    margin: 16px 0px 16px 0px;
+    padding: 8px;
+    background: rgba(255, 255, 255, 0.8);
+    border: 10px;
+    border-radius: 10px;
 }
 
 label{
@@ -12,15 +18,8 @@ label{
     padding-right: 8px;
 }
 
-form{
-    margin-left: 15px;
-    margin-right: 15px;
-    padding-bottom: 15px;
-}
-
 input {
     text-align: right;
-    margin-block-start: 7px;
     margin-block-end: 7px;
     background: rgba(255, 255, 255, 0.8);
     border-radius: 10px;

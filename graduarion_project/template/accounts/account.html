@@ -33,8 +33,10 @@
             </tr>
 
         </table>
-        <a href="{% url 'delete_account' %}">Delete account</a>
+
+        <a class="dell" href="{% url 'delete_account' %}">Delete account</a>
         <p>Your orders</p>
+
         {% else %}
             <form method="post">
                 {% csrf_token %}
@@ -49,16 +51,17 @@
                         <td>{{ form.password.label_tag }}</td>
                         <td>{{ form.password }}</td>
                     </tr>
+                    <tr>
+                        <td><input type="submit" value="Enter"></td>
+                    </tr>
                 </table>
-
-                <input type="submit" value="Enter">
             </form>
 
         <div class="restore">
             <a href="{% url 'password_reset' %}">Restore password</a>
         </div>
-
         {% endif %}
+
     </div>
 </body>
 {% endblock %}
