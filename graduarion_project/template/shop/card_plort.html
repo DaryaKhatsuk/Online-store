@@ -13,38 +13,61 @@
 <body>
     <div class="sect">
         {% for plort in plorts %}
-            <table>
-                <tr>
-                    <td> <img src="{% static plort.imagePlort %}" height="100px"></td>
-                </tr>
-                <tr>
-                    <td><p><b>{{plort.plortName}}</b></p><br></td>
-                </tr>
-                <tr>
-                    <td>
-                         {% if user.is_authenticated %}
-                            <a href="{% url 'cart' %}">In cart</a>
-                            <a href="{% url 'cart' %}">Add cart</a>
-                        {% else %}
-                        {% endif %}
-                    </td>
-                </tr>
+            <table class="text_title">
+                <tbody>
+                    <tr>
+                        <td rowspan="2"> <img src="{% static plort.imagePlort %}" height="100px"></td>
+                        <td><p><b>{{plort.plortName}}</b></p></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            {% if user.is_authenticated %}
+                                &#160;<a href="{% url 'cart' %}">In cart</a>
+                                      <a href="{% url 'cart' %}">Add cart</a>
+                            {% else %}
+                            {% endif %}
+                        </td>
+                    </tr>
+                </tbody>
             </table>
             <table>
                 <tr>
-                    <td><p>Price: {{plort.price}} newbucks</p></td>
+                    <td><p>Price: &#160;{{plort.price}} newbucks</p></td>
                 </tr>
                 <tr>
-                    <td><p>In stock: {{plort.quantity}}</p></td>
+                    <td><p>In stock: &#160;{{plort.quantity}}</p></td>
                 </tr>
                 <tr>
-                    <td><p>Rarity: {{plort.rarity}}</p></td>
+                    <td><p>Rarity: &#160;{{plort.rarity}}</p></td>
                 </tr>
+              </table>
+            <table class="text">
                 <tr>
                     <td><p>{{plort.description}}</p></td>
                 </tr>
             </table>
         {% endfor %}
+        <div class="comment">
+
+            {% if user.is_authenticated %}
+            <form method="post">
+                {% csrf_token %}
+                <table>
+                    <tr>
+                        <td>You can leave a comment</td>
+                    </tr>
+                     <tr>
+                        <td>{{comment_form.UserText}}</td>
+                    </tr>
+                </table>
+                    <input type="submit" value="Comment">
+            </form>
+            {% else %}
+            <p>Log in to leave a comment</p>
+            {% endif %}
+        </div>
+        <div class="comments_for_base">
+        </div>
     </div>
 </body>
 {% endblock %}

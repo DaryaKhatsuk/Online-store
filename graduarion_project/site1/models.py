@@ -1,6 +1,14 @@
 from django.db import models
 from django.contrib.auth.models import User
-from django.db.models.functions import datetime
+
+
+class Comments(models.Model):
+    idComment = models.AutoField(primary_key=True, verbose_name='Key')
+    idPlort = models.IntegerField(verbose_name='Key Plort')
+    idUser = models.IntegerField(verbose_name='Key User')
+    userName = models.CharField(max_length=200, verbose_name='User name')
+    UserText = models.CharField(max_length=1024, verbose_name='Comment')
+    dateOrder = models.DateField(auto_now_add=True)
 
 
 class Plorts(models.Model):
@@ -35,7 +43,7 @@ class Cart(models.Model):
     ConsentDataProcessing = models.BooleanField(verbose_name='Consent to data processing', null=True)
 
     dateDelivery = models.DateField(null=True)
-    dateOrder = models.DateField(unique_for_date=datetime.timezone.now, null=True)
+    dateOrder = models.DateField(auto_now_add=True)
     cartCustomer = models.CharField(max_length=120, verbose_name='Customer', null=True)
 
     def __str__(self):
@@ -56,6 +64,6 @@ class Purchase(models.Model):
 
     deliveryAddress = models.CharField(max_length=30, verbose_name='Delivery address')
     dateDelivery = models.DateField()
-    dateOrder = models.DateField(unique_for_date=datetime.timezone.now, null=True)
+    dateOrder = models.DateField(auto_now_add=True)
 
     currentCustomer = models.CharField(max_length=120, verbose_name='Customer')

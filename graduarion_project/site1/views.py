@@ -3,8 +3,8 @@ from django.contrib.auth.models import User, make_password
 from django.http import HttpResponseNotFound
 from django.shortcuts import render, redirect
 from django.core.mail import EmailMessage, get_connection
-from .forms import RegistrationForm, LoginForm, ResetForm, AccountDelForm, CartForm, PurchaseForm
-from .models import Plorts, Cart, Purchase
+from .forms import RegistrationForm, LoginForm, ResetForm, AccountDelForm, CartForm, PurchaseForm, CommentsForm
+from .models import Plorts, Cart, Purchase, Comments
 from django.views.generic import DeleteView, UpdateView
 from .helper_file import FORM_EMAIL, create
 from django.contrib.sessions.middleware import SessionMiddleware, settings
@@ -43,7 +43,7 @@ using session: request.session['foo'] = 'bar'    # задать переменн
 
 
 def shop_view(request):
-    # try:
+    try:
         if request.method == 'POST':
             plort = Plorts.imagePlort
             cost = Plorts.price
@@ -54,35 +54,50 @@ def shop_view(request):
             'plorts': Plorts.objects.all(),
         }
         return render(request, 'shop/shop.html', context)
-    # except:
-    #     return redirect('error_frame')
-
-
-def card_plort(request, num):
-    try:
-        # if request.method == 'POST':
-        #     plort = Plorts.imagePlort
-        #     cost = Plorts.price
-        #     append = 1
-
-        context = {
-            'user': request.user,
-            'plorts': Plorts.objects.filter(idPlort=num)
-        }
-        return render(request, 'shop/card_plort.html', context)
-    except:
+    except Exception as ex:
+        print(ex)
         return redirect('error_frame')
 
 
-def cart_view(request):
+def card_plort(request, num):
     # try:
-    context = {
-        'carts': Purchase(),
-        'form': PurchaseForm(),
-    }
-    return render(request, 'cart/cart.html', context)
-    # except:
+    #     user_name = []
+    #     for i in User.objects.values('id', 'first_name'):
+    #         for j in Comments.objects.values('idPlort', 'idUser'):
+    #             print(j.get('idUser', 'idPlort'))
+    #             if i.get('id') == j.get('idUser') and j.get('idPlort') == num:
+    #                 print(i.get('first_name'))
+    #                 user_name.append(i.get('first_name'))
+        if request.method == 'POST':
+            text_user = CommentsForm(data=request.POST)
+            if text_user.is_valid():
+                comment = Comments(idPlort=num,
+                                   userName=request.user.first_name,
+                                   idUser=request.user.id,
+                                   UserText=text_user.data.get('UserText'))
+                comment.save()
+
+        context = {
+            'plorts': Plorts.objects.filter(idPlort=num),
+            'comments': Comments.objects.filter(idPlort=num),
+            'comment_form': CommentsForm(),
+        }
+        return render(request, 'shop/card_plort.html', context)
+    # except Exception as ex:
+    #     print(ex)
     #     return redirect('error_frame')
+
+
+def cart_view(request):
+    try:
+        context = {
+            'carts': Purchase(),
+            'form': PurchaseForm(),
+        }
+        return render(request, 'cart/cart.html', context)
+    except Exception as ex:
+        print(ex)
+        return redirect('error_frame')
 
 
 """
@@ -121,7 +136,8 @@ def password_reset_view(request):
             'form': ResetForm(),
         }
         return render(request, 'accounts/password_reset/password_reset.html', context)
-    except:
+    except Exception as ex:
+        print(ex)
         return redirect('error_frame')
 
 
@@ -131,7 +147,8 @@ def password_reset_done_view(request):
 
         }
         return render(request, 'accounts/password_reset/password_reset_done.html', context)
-    except:
+    except Exception as ex:
+        print(ex)
         return redirect('error_frame')
 
 
@@ -146,12 +163,15 @@ def registration_view(request):
             user_form = RegistrationForm(data=request.POST)
             if user_form.is_valid():
                 coun_users = 1
-
                 for i in User.objects.values('email'):
                     # только если coun_users будет равно количеству записей в базе и до этого не найдется запись
                     # об искомом email, email будет зарегистрирован
                     if coun_users == len(User.objects.all()) and user_form.data.get('email') != i.get('email'):
-                        User.objects.create_user(**user_form.cleaned_data)
+                        User.objects.create_user(username=user_form.cleaned_data.get('username'),
+                                            first_name=user_form.cleaned_data.get('first_name'),
+                                            last_name=user_form.cleaned_data.get('last_name'),
+                                            email=user_form.cleaned_data.get('email'),
+                                            password=user_form.cleaned_data.get('password'))
                         user = authenticate(username=user_form.cleaned_data.get('username'),
                                             first_name=user_form.cleaned_data.get('first_name'),
                                             last_name=user_form.cleaned_data.get('last_name'),
@@ -178,19 +198,20 @@ def registration_view(request):
 def login_view(request):
     try:
         if request.method == "POST":
-            request.session['shop'] = 'buy'
+            # request.session['shop'] = 'buy'
             user_form = RegistrationForm(data=request.POST)
             user = authenticate(username=user_form.data.get('username'),
                                 password=user_form.data.get('password'))
             login(request, user)
-            if request.session.is_empty():
-                request.session['shop'] = 'buy'
+            # if request.session.is_empty():
+            #     request.session['shop'] = 'buy'
             return redirect('base')
         context = {
             'form': LoginForm(),
         }
         return render(request, 'accounts/account.html', context)
-    except:
+    except Exception as ex:
+        print(ex)
         return redirect('error_frame')
 
 
@@ -227,7 +248,8 @@ def delete_account_view(request):
             'form': AccountDelForm(),
         }
         return render(request, 'accounts/delete_account/delete_account.html', context)
-    except:
+    except Exception as ex:
+        print(ex)
         return redirect('error_frame')
 
 
@@ -236,5 +258,6 @@ def delete_account_done_view(request):
         context = {
         }
         return render(request, 'accounts/delete_account/delete_account_done.html', context)
-    except:
+    except Exception as ex:
+        print(ex)
         return redirect('error_frame')
