@@ -22,8 +22,13 @@
                     <tr>
                         <td>
                             {% if user.is_authenticated %}
-                                &#160;<a href="{% url 'cart' %}">In cart</a>
-                                      <a href="{% url 'cart' %}">Add cart</a>
+                            <form action="{% url 'cart_add' plort.idPlort %}" method="post">
+                                {{ cart_product_form }}
+                                {% csrf_token %}
+                                <input type="submit" value="Add to cart">
+                            </form>
+                                &#160;<a href="">In cart</a>
+                                  <a href="{% url 'cart_add' plort.idPlort %}">Add cart</a>
                             {% else %}
                             {% endif %}
                         </td>

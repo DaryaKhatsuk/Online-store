@@ -1,13 +1,16 @@
 from django.contrib.auth import authenticate, login, logout, password_validation
 from django.contrib.auth.models import User, make_password
 from django.http import HttpResponseNotFound
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
+from django.views.decorators.http import require_POST
 from django.core.mail import EmailMessage, get_connection
 from .forms import RegistrationForm, LoginForm, ResetForm, AccountDelForm, CartForm, PurchaseForm, CommentsForm
-from .models import Plorts, Cart, Purchase, Comments
+from .models import Plorts, CartModel, Purchase, Comments
 from django.views.generic import DeleteView, UpdateView
 from .helper_file import FORM_EMAIL, create
 from django.contrib.sessions.middleware import SessionMiddleware, settings
+from .forms import CartAddProductForm
+from .cart import Cart
 
 
 """
@@ -21,14 +24,12 @@ def m404(request):
 
 def error_frame_view(request):
     context = {
-
     }
     return render(request, 'errors/error_frame.html', context)
 
 
 def error_frame_registration_view(request):
     context = {
-
     }
     return render(request, 'errors/error_frame_registration.html', context)
 
@@ -43,7 +44,10 @@ using session: request.session['foo'] = 'bar'    # задать переменн
 
 
 def shop_view(request):
-    try:
+
+    # try:
+        del request.session['cart']
+        print('session del')
         if request.method == 'POST':
             plort = Plorts.imagePlort
             cost = Plorts.price
@@ -54,20 +58,16 @@ def shop_view(request):
             'plorts': Plorts.objects.all(),
         }
         return render(request, 'shop/shop.html', context)
-    except Exception as ex:
-        print(ex)
-        return redirect('error_frame')
+    # except Exception as ex:
+    #     print(ex)
+    #     return redirect('error_frame')
 
 
 def card_plort(request, num):
     # try:
-    #     user_name = []
-    #     for i in User.objects.values('id', 'first_name'):
-    #         for j in Comments.objects.values('idPlort', 'idUser'):
-    #             print(j.get('idUser', 'idPlort'))
-    #             if i.get('id') == j.get('idUser') and j.get('idPlort') == num:
-    #                 print(i.get('first_name'))
-    #                 user_name.append(i.get('first_name'))
+        plort = Plorts.objects.get(idPlort=num)
+        print(plort)
+        print(plort.price)
         if request.method == 'POST':
             text_user = CommentsForm(data=request.POST)
             if text_user.is_valid():
@@ -76,11 +76,14 @@ def card_plort(request, num):
                                    idUser=request.user.id,
                                    UserText=text_user.data.get('UserText'))
                 comment.save()
-
+        # product = get_object_or_404(Plorts, id=request.user.id)
+        cart_product_form = CartAddProductForm()
         context = {
             'plorts': Plorts.objects.filter(idPlort=num),
             'comments': Comments.objects.filter(idPlort=num),
             'comment_form': CommentsForm(),
+            'product': num,
+            'cart_product_form': cart_product_form,
         }
         return render(request, 'shop/card_plort.html', context)
     # except Exception as ex:
@@ -88,16 +91,55 @@ def card_plort(request, num):
     #     return redirect('error_frame')
 
 
-def cart_view(request):
-    try:
-        context = {
-            'carts': Purchase(),
-            'form': PurchaseForm(),
-        }
-        return render(request, 'cart/cart.html', context)
-    except Exception as ex:
-        print(ex)
-        return redirect('error_frame')
+@require_POST
+def cart_add(request, product_id):
+    cart = Cart(request)
+    form = CartAddProductForm(request.POST)
+    if form.is_valid():
+        cd = form.cleaned_data
+        cart.add(quantity=form.cleaned_data['quantity'],
+                 product=product_id,
+                 update_quantity=cd['update'],
+                 )
+    return redirect('cart_detail')
+
+
+def cart_remove(request, product_id):
+    cart = Cart(request)
+    product = product_id
+    cart.remove(product)
+    return redirect('cart_detail')
+
+
+def cart_detail(request):
+    cart = Cart(request)
+    context = {
+        'cart': cart,
+    }
+    return render(request, 'cart/cart.html', context)
+
+
+# def product_detail(request):
+#     product = get_object_or_404(Plorts,
+#                                 id=request.user.id)
+#     cart_product_form = CartAddProductForm()
+#     context = {
+#         'product': product,
+#         'cart_product_form': cart_product_form,
+#     }
+#     return render(request, 'cart/cart.html', context)
+
+
+# def cart_view(request):
+#     # try:
+#         context = {
+#             'carts': Purchase(),
+#             'form': PurchaseForm(),
+#         }
+#         return render(request, 'cart/cart.html', context)
+#     # except Exception as ex:
+#     #     print(ex)
+#     #     return redirect('error_frame')
 
 
 """
@@ -144,7 +186,6 @@ def password_reset_view(request):
 def password_reset_done_view(request):
     try:
         context = {
-
         }
         return render(request, 'accounts/password_reset/password_reset_done.html', context)
     except Exception as ex:
