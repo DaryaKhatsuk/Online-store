@@ -37,7 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'site1'
+    'site1',
 ]
 
 MIDDLEWARE = [
@@ -77,7 +77,7 @@ WSGI_APPLICATION = 'graduarion_project.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'post',
+        'NAME': 'store',
         'USER': 'Admin',
         'PASSWORD': '5947',
         'HOST': 'localhost',
@@ -110,11 +110,31 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Minsk'
 
 USE_I18N = True
 
 USE_TZ = True
+
+# Redirect to home URL
+LOGIN_REDIRECT_URL = '/'
+
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'raolla12@gmail.com'
+EMAIL_HOST_PASSWORD = 'vppqaxrunzedwiuz'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False
+
+FORM_EMAIL = 'PlortShop@gmail.com'
+EMAIL_ADMIN = 'raolla12@gmail.com'
+
+SERVER_EMAIL = EMAIL_HOST_USER
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+CART_SESSION_ID = 'cart'
 
 
 # Static files (CSS, JavaScript, Images)

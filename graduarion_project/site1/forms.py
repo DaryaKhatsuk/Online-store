@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.models import User
-from .models import Cart, Purchase, Comments
+from .models import CartModel, Purchase, Comments
 
 
 class RegistrationForm(forms.ModelForm):
@@ -49,7 +49,7 @@ class CartForm(forms.ModelForm):
     dateDelivery = forms.DateField(label='Date delivery')
 
     class Meta:
-        model = Cart
+        model = CartModel
         fields = ('deliveryAddress', 'ConsentDataProcessing', 'cartQuantity', 'dateDelivery')
 
 
@@ -69,3 +69,11 @@ class CommentsForm(forms.ModelForm):
     class Meta:
         model = Comments
         fields = ('UserText',)
+
+
+PRODUCT_QUANTITY_CHOICES = [(i, str(i)) for i in range(1, 100)]
+
+
+class CartAddProductForm(forms.Form):
+    quantity = forms.TypedChoiceField(choices=PRODUCT_QUANTITY_CHOICES, coerce=int)
+    update = forms.BooleanField(required=False, initial=False, widget=forms.HiddenInput)
