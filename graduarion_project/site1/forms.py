@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.models import User
-from .models import CartModel, Purchase, Comments
+from .models import Purchase, Comments
 
 
 class RegistrationForm(forms.ModelForm):
@@ -43,9 +43,8 @@ class AccountDelForm(forms.ModelForm):
 
 
 class PurchaseForm(forms.ModelForm):
-    boughtQuantity = forms.RadioSelect()
     deliveryAddress = forms.CharField(max_length=115, label='Delivery address')
-    dateDelivery = forms.DateField(label='Date delivery')
+    dateDelivery = forms.DateField(label='Date delivery', widget=forms.SelectDateWidget)
 
     class Meta:
         model = Purchase

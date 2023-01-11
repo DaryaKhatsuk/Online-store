@@ -7,7 +7,6 @@ from .views import shop_view, card_plort, cart_add, cart_detail, cart_remove, \
 
 urlpatterns = [
     path('', shop_view, name='base'),
-    # path('cart/', cart_view, name='cart'),
     path('card_plort_<int:num>/', card_plort, name='card_plort'),
     path('registration/', registration_view, name='registration'),
     path('registration/error_frame_registration', error_frame_registration_view, name='error_frame_registration'),

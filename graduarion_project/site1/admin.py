@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Plorts, CartModel, Purchase, Comments
+from .models import Plorts, Purchase, Comments
 
 
 @admin.register(Plorts)
@@ -8,14 +8,6 @@ class PlortsAdmin(admin.ModelAdmin):
     list_display = ('idPlort', 'plortName', 'imagePlort', 'description', 'rarity', 'price', 'quantity')
     list_filter = ('plortName', 'rarity', 'price')
     search_fields = ('plortName', 'rarity')
-
-
-@admin.register(CartModel)
-class CartAdmin(admin.ModelAdmin):
-    list_display = ('idCart', 'cartPlort', 'imagePlort', 'cartPrice', 'cartQuantity', 'priceLine', 'totalPrice',
-                    'deliveryAddress', 'ConsentDataProcessing', 'dateDelivery', 'dateOrder', 'cartCustomer')
-    list_filter = ('totalPrice', 'deliveryAddress', 'dateDelivery', 'cartCustomer')
-    search_fields = ('totalPrice', 'deliveryAddress', 'dateDelivery', 'cartCustomer')
 
 
 @admin.register(Purchase)

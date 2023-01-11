@@ -38,7 +38,7 @@ tr{
     align-content: center;
 }
 
-.list{
+table{
     margin: 8px;
     border-radius: 10px;
     padding: 8px;
@@ -84,5 +84,9 @@ input{
 input:active{
     background: rgba(250, 228, 231, 0.8);
     color: rgba(255, 89, 108, 0.8);
+}
+
+.continue{
+    background: rgba(255, 89, 108, 0.0);
 }
 

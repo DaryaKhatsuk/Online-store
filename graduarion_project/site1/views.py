@@ -101,13 +101,21 @@ def cart_add(request, product_id):
 def cart_remove(request, product_id):
     cart = Cart(request)
     product = product_id
-    print(product_id)
-    print(product)
+    # print(product_id)
+    # print(product)
+    # print(cart.remove(product))
     cart.remove(product)
     return redirect('cart_detail')
 
 
 def cart_detail(request):
+    if request.method == 'POST':
+        print(request.data.get())
+        print(request.user())
+
+        user = User.objects.get(id=request.user.id)
+        # user.delete()
+        # plorts = Plorts.objects.filter(idPlort=num)
     cart = Cart(request)
     cart_product_form = CartAddProductForm()
     context = {
@@ -116,7 +124,6 @@ def cart_detail(request):
         'form': PurchaseForm,
         'buy': Purchase,
     }
-    print(context)
     return render(request, 'cart/cart.html', context)
 
 

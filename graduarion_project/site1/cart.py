@@ -26,7 +26,7 @@ class Cart(object):
                                                'price': str(product_id.price),
                                                'image': product_id.imagePlort,
                                              }
-            print(self.cart[product_id.idPlort])
+            # print(self.cart[product_id.idPlort])
 
         if update_quantity:
             self.cart[product_id.idPlort]['quantity'] = quantity
@@ -45,9 +45,13 @@ class Cart(object):
         """
         Удаление товара из корзины.
         """
-        product_id = Plorts.objects.get(idPlort=product)
-        if product_id in self.cart:
-            del self.cart[product_id.idPlort]
+        # print(product)
+        # product_id = Plorts.objects.get(idPlort=product)
+        # print(product_id.idPlort)
+        print(self.cart.get(product))
+        if product in self.cart:
+            print('self.cart', self.cart)
+            del self.cart[product]
             self.save()
 
     def __iter__(self):
