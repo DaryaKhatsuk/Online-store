@@ -127,6 +127,11 @@ def cart_detail(request):
     return render(request, 'cart/cart.html', context)
 
 
+def cart_done(request):
+    context = {
+    }
+    return render(request, 'cart/purchases_register.html', context)
+
 """
 Password reset view
 """

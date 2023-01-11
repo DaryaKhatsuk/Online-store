@@ -31,9 +31,6 @@ h2{
     width: 260px;
     min-width: 250px;
     height: 165px;
-    /*max-width: 340px;*/
-    /*min-height: 318px;*/
-    /*height: max-content;*/
     background: rgba(255, 255, 255, 0.8);
     color: rgba(255, 89, 108, 0.8);
     border-radius:10px;
@@ -93,7 +90,6 @@ select{
     border: 1px solid rgba(25, 41, 73, 0.8);
     border-radius: 10px;
     padding: 5px;
-    /*margin-top: 8px;*/
 }
 
 @media screen and (min-width:920px) {

@@ -13,7 +13,7 @@
 <body>
     <div class="cart">
        {% if user.is_authenticated %}
-        <table><tr>
+
             <table class="list">
                 <thead>
                 <tr>
@@ -30,7 +30,7 @@
                         <tr>
                             <td>
                                 <a class="href" href="{% url 'card_plort' product %}">
-                                    <img src="{% static item.image %}">
+                                    <img class="imgPR" src="{% static item.image %}">
                                 </a>
                             </td>
                             <td>{{ item.quantity }}</td>
@@ -49,27 +49,27 @@
                 </tbody>
                 </table>
 
-                    <form method="post">
-                        {% csrf_token %}
-                <table>
+                <form class="delivery" method="post">
+                    {% csrf_token %}
+                    <table>
+                        <tr>
+                            <td>{{ form.dateDelivery.label_tag }}</td>
+                            <td>{{ form.dateDelivery }}</td>
+                        </tr>
+                        <tr>
+                            <td>{{ form.deliveryAddress.label_tag }}</td>
+                            <td>{{ form.deliveryAddress }}</td>
+                        </tr>
+                    </table>
+    <!--                <input type="submit" value="Buy">-->
+                </form>
+
+                <table class="continue">
                     <tr>
-                        <td>{{ form.dateDelivery.label_tag }}</td>
-                        <td>{{ form.dateDelivery }}</td>
-                    </tr>
-                    <tr>
-                        <td>{{ form.deliveryAddress.label_tag }}</td>
-                        <td>{{ form.deliveryAddress }}</td>
+                    <td><a href="{% url 'base' %}" class="button light">Continue shopping</a></td>
+                    <td><a href="#" class="button">Checkout</a></td>
                     </tr>
                 </table>
-        <!--                <input type="submit" value="Buy">-->
-                    </form>
-
-                <table class="continue"><tr>
-                <td><a href="{% url 'base' %}" class="button light">Continue shopping</a></td>
-                <td><a href="#" class="button">Checkout</a></td>
-                </tr></table>
-
-        </tr></table>
 
         {% else %}
             <p>To make purchases, you must register and log in.</p>
