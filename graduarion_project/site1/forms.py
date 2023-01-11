@@ -42,17 +42,6 @@ class AccountDelForm(forms.ModelForm):
         fields = ('email',)
 
 
-class CartForm(forms.ModelForm):
-    deliveryAddress = forms.CharField(label='Delivery address', max_length=115)
-    ConsentDataProcessing = forms.NullBooleanField(label='Consent to data processing')
-    cartQuantity = forms.RadioSelect()
-    dateDelivery = forms.DateField(label='Date delivery')
-
-    class Meta:
-        model = CartModel
-        fields = ('deliveryAddress', 'ConsentDataProcessing', 'cartQuantity', 'dateDelivery')
-
-
 class PurchaseForm(forms.ModelForm):
     boughtQuantity = forms.RadioSelect()
     deliveryAddress = forms.CharField(max_length=115, label='Delivery address')

@@ -14,6 +14,53 @@ form{
     padding-bottom: 8px;
 }
 
+img{
+    height: 100px;
+    /*display: flex;*/
+    /*align-items: center;*/
+    /*line-height: normal;*/
+    horiz-align: center;
+    /*text-align: center;*/
+    /*vertical-align: center;*/
+}
+.num{
+    text-align: center;
+}
+
+td{
+
+
+    padding-bottom: 8px;
+}
+
+tr{
+    text-align: center;
+    align-content: center;
+}
+
+.list{
+    margin: 8px;
+    border-radius: 10px;
+    padding: 8px;
+    /*align-items: center;*/
+    /*text-align: center;*/
+    /*align-content: center;vertical-align: center;*/
+    /*position: center;*/
+    background-color: rgba(255, 255, 255, 0.8);
+}
+
+.href{
+    background-color: rgba(000, 000, 000, 0.0);
+    border: none;
+
+    /*align-items: center;*/
+    /*line-height: normal;*/
+    align-content: center;
+    /*padding-top: 40px;*/
+    padding: 0;
+
+}
+
 select{
     text-align: center;
     margin-block-start: 7px;
@@ -38,3 +85,4 @@ input:active{
     background: rgba(250, 228, 231, 0.8);
     color: rgba(255, 89, 108, 0.8);
 }
+

@@ -20,5 +20,5 @@ urlpatterns = [
     path('account/delete_account/delete_account_done/', delete_account_done_view, name='delete_account_done'),
     path('cart/', cart_detail, name='cart_detail'),
     path('add/<product_id>/', cart_add, name='cart_add'),
-    path('remove/<product_id>/', cart_remove, name='cart_remove'),
+    path('cart/remove/<product_id>/', cart_remove, name='cart_remove'),
 ]

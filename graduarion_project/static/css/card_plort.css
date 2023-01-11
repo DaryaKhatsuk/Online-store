@@ -8,7 +8,7 @@ nav{
 /*}*/
 
 .sect b{
-    margin-left: 38px;
+    margin-left: 42px;
 }
 
 .sect{
@@ -23,8 +23,22 @@ nav{
     margin: 8px 8px 0px 0px;
 }
 
+.text a{
+    margin-top: 20px;
+}
+
+.text a:active{
+    background: rgba(250, 228, 231, 0.8);
+    color: rgba(255, 89, 108, 0.8);
+}
+
 table{
-    margin-bottom: 8px;
+    margin: 8px;
+}
+
+.text_title td{
+    text-align: center;
+    align-content: center;
 }
 
 .text{
@@ -33,17 +47,26 @@ table{
 
 input{
     text-align: right;
-    margin-block-start: 7px;
+    /*margin-block-start: 7px;*/
     margin-block-end: 7px;
-    background: rgba(255, 255, 255, 0.8);
+    background: rgba(195, 210, 246, 0.7);
     border-radius: 10px;
     padding: 5px;
     border: 1px solid rgba(25, 41, 73, 0.8);
+    margin-left: 42px;
 }
 
 input:active{
     background: rgba(250, 228, 231, 0.8);
     color: rgba(255, 89, 108, 0.8);
+}
+
+select{
+    background: rgba(195, 210, 246, 0.7);
+    border: 1px solid rgba(25, 41, 73, 0.8);
+    border-radius: 10px;
+    padding: 5px;
+    /*margin-top: 8px;*/
 }
 
 .comments_for_base table{

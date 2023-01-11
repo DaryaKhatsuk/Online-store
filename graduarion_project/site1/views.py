@@ -4,8 +4,8 @@ from django.http import HttpResponseNotFound
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.http import require_POST
 from django.core.mail import EmailMessage, get_connection
-from .forms import RegistrationForm, LoginForm, ResetForm, AccountDelForm, CartForm, PurchaseForm, CommentsForm
-from .models import Plorts, CartModel, Purchase, Comments
+from .forms import RegistrationForm, LoginForm, ResetForm, AccountDelForm, PurchaseForm, CommentsForm
+from .models import Plorts, Purchase, Comments
 from django.views.generic import DeleteView, UpdateView
 from .helper_file import FORM_EMAIL, create
 from django.contrib.sessions.middleware import SessionMiddleware, settings
@@ -46,16 +46,13 @@ using session: request.session['foo'] = 'bar'    # задать переменн
 def shop_view(request):
 
     # try:
-        del request.session['cart']
-        print('session del')
-        if request.method == 'POST':
-            plort = Plorts.imagePlort
-            cost = Plorts.price
-            append = 1
-
+    #     del request.session['cart']
+        # print(request.session['cart'])
+        cart_product_form = CartAddProductForm()
         context = {
             'user': request.user,
             'plorts': Plorts.objects.all(),
+            'cart_product_form': cart_product_form,
         }
         return render(request, 'shop/shop.html', context)
     # except Exception as ex:
@@ -65,9 +62,9 @@ def shop_view(request):
 
 def card_plort(request, num):
     # try:
-        plort = Plorts.objects.get(idPlort=num)
-        print(plort)
-        print(plort.price)
+    #     plort = Plorts.objects.get(idPlort=num)
+        # print(plort)
+        # print(plort.price)
         if request.method == 'POST':
             text_user = CommentsForm(data=request.POST)
             if text_user.is_valid():
@@ -76,7 +73,6 @@ def card_plort(request, num):
                                    idUser=request.user.id,
                                    UserText=text_user.data.get('UserText'))
                 comment.save()
-        # product = get_object_or_404(Plorts, id=request.user.id)
         cart_product_form = CartAddProductForm()
         context = {
             'plorts': Plorts.objects.filter(idPlort=num),
@@ -84,6 +80,7 @@ def card_plort(request, num):
             'comment_form': CommentsForm(),
             'product': num,
             'cart_product_form': cart_product_form,
+
         }
         return render(request, 'shop/card_plort.html', context)
     # except Exception as ex:
@@ -93,29 +90,38 @@ def card_plort(request, num):
 
 @require_POST
 def cart_add(request, product_id):
+    print(product_id)
     cart = Cart(request)
     form = CartAddProductForm(request.POST)
+    print(form)
     if form.is_valid():
         cd = form.cleaned_data
         cart.add(quantity=form.cleaned_data['quantity'],
                  product=product_id,
                  update_quantity=cd['update'],
                  )
-    return redirect('cart_detail')
+    return redirect('base')
 
 
 def cart_remove(request, product_id):
     cart = Cart(request)
     product = product_id
+    print(product_id)
+    print(product)
     cart.remove(product)
     return redirect('cart_detail')
 
 
 def cart_detail(request):
     cart = Cart(request)
+    cart_product_form = CartAddProductForm()
     context = {
+        'cart_product_form': cart_product_form,
         'cart': cart,
+        'form': PurchaseForm,
+        'buy': Purchase,
     }
+    print(context)
     return render(request, 'cart/cart.html', context)
 
 
