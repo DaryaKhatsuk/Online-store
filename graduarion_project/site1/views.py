@@ -44,10 +44,8 @@ using session: request.session['foo'] = 'bar'    # задать переменн
 
 
 def shop_view(request):
-
     # try:
-    #     del request.session['cart']
-        # print(request.session['cart'])
+    #   del request.session['cart']
         cart_product_form = CartAddProductForm()
         context = {
             'user': request.user,
@@ -62,9 +60,6 @@ def shop_view(request):
 
 def card_plort(request, num):
     # try:
-    #     plort = Plorts.objects.get(idPlort=num)
-        # print(plort)
-        # print(plort.price)
         if request.method == 'POST':
             text_user = CommentsForm(data=request.POST)
             if text_user.is_valid():
@@ -123,29 +118,6 @@ def cart_detail(request):
     }
     print(context)
     return render(request, 'cart/cart.html', context)
-
-
-# def product_detail(request):
-#     product = get_object_or_404(Plorts,
-#                                 id=request.user.id)
-#     cart_product_form = CartAddProductForm()
-#     context = {
-#         'product': product,
-#         'cart_product_form': cart_product_form,
-#     }
-#     return render(request, 'cart/cart.html', context)
-
-
-# def cart_view(request):
-#     # try:
-#         context = {
-#             'carts': Purchase(),
-#             'form': PurchaseForm(),
-#         }
-#         return render(request, 'cart/cart.html', context)
-#     # except Exception as ex:
-#     #     print(ex)
-#     #     return redirect('error_frame')
 
 
 """
@@ -215,10 +187,10 @@ def registration_view(request):
                     # об искомом email, email будет зарегистрирован
                     if coun_users == len(User.objects.all()) and user_form.data.get('email') != i.get('email'):
                         User.objects.create_user(username=user_form.cleaned_data.get('username'),
-                                            first_name=user_form.cleaned_data.get('first_name'),
-                                            last_name=user_form.cleaned_data.get('last_name'),
-                                            email=user_form.cleaned_data.get('email'),
-                                            password=user_form.cleaned_data.get('password'))
+                                                 first_name=user_form.cleaned_data.get('first_name'),
+                                                 last_name=user_form.cleaned_data.get('last_name'),
+                                                 email=user_form.cleaned_data.get('email'),
+                                                 password=user_form.cleaned_data.get('password'))
                         user = authenticate(username=user_form.cleaned_data.get('username'),
                                             first_name=user_form.cleaned_data.get('first_name'),
                                             last_name=user_form.cleaned_data.get('last_name'),
