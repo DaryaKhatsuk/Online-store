@@ -21,17 +21,17 @@ class Cart(object):
         Добавить продукт в корзину или обновить его количество.
         """
         product_id = Plorts.objects.get(idPlort=product)
-        # print(100 *'!', product_id.idPlort)
         if product_id not in self.cart:
-            self.cart[product_id.idPlort] = {'quantity': 0,
-                                               'price': str(product_id.price)}
+            self.cart[product_id.idPlort] = {'quantity': quantity,
+                                               'price': str(product_id.price),
+                                               'image': product_id.imagePlort,
+                                             }
+            # print(self.cart[product_id.idPlort])
+
         if update_quantity:
-            # print(100 *'!', update_quantity)
             self.cart[product_id.idPlort]['quantity'] = quantity
-            # print(self.cart[product_id.idPlort]['quantity'])
         else:
             self.cart[product_id.idPlort]['quantity'] += quantity
-            # print(100 *'!', self.cart[product_id.idPlort]['quantity'])
         self.save()
 
     def save(self):
@@ -45,9 +45,13 @@ class Cart(object):
         """
         Удаление товара из корзины.
         """
-        product_id = Plorts.objects.get(idPlort=product)
-        if product_id in self.cart:
-            del self.cart[product_id.idPlort]
+        # print(product)
+        # product_id = Plorts.objects.get(idPlort=product)
+        # print(product_id.idPlort)
+        print(self.cart.get(product))
+        if product in self.cart:
+            print('self.cart', self.cart)
+            del self.cart[product]
             self.save()
 
     def __iter__(self):
@@ -55,27 +59,19 @@ class Cart(object):
         Перебор элементов в корзине и получение продуктов из базы данных.
         """
         product_ids = self.cart.keys()
-        # keyPl = ''
-        for product_id in product_ids:
-            print('ID'*10, product_id)
-            # keyPl += product_id + ', '
-
-            # products = Plorts.objects.get(idPlort=product_id)
-            # print('products '*10, products.idPlort, products.price)
-            # for product in products:
-            #     print('product ' * 50, product, product.idPlort)
-            #     self.cart[str(product.idPlort)]['product'] = products.price, products.plortName, products.imagePlort
+        ids = {}
+        for i in product_ids:
+            products = Plorts.objects.get(idPlort=i)
+            ids[products.idPlort] = products.imagePlort
+        for product, coun in ids.items():
+            self.cart[str(product)]['product'] = product
+            self.cart[str(product)]['image'] = coun
+            # print('cart adds:', self.cart[str(product)]['product'])
 
         # keysList = [key for key in product_ids]
 
         # получение объектов product и добавление их в корзину
-        # products = Plorts.objects.get(idPlort=str(list(product_ids)))
-        # print(10 *'products, ', products.idPlort, products.price)
-        # print(products.idPlort, products.price)
-
-        print(self.cart.values())
         for item in self.cart.values():
-            print('item' * 10, item)
             item['price'] = int(item['price'])
             item['total_price'] = item['price'] * item['quantity']
             yield item
@@ -90,7 +86,7 @@ class Cart(object):
         """
         Подсчет стоимости товаров в корзине.
         """
-        return sum(Decimal(item['price']) * item['quantity'] for item in
+        return sum(item['price'] * item['quantity'] for item in
                    self.cart.values())
 
     def clear(self):

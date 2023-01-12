@@ -14,74 +14,62 @@
     <div class="cart">
        {% if user.is_authenticated %}
 
-    <table class="cart">
-            <thead>
-            <tr>
-                <th>Image</th>
-                <th>Product</th>
-                <th>Quantity</th>
-                <th>Remove</th>
-                <th>Unit price</th>
-                <th>Price</th>
-            </tr>
-            </thead>
-            <tbody>
-            {% for item in cart %}
-                {% with product=item.product %}
+            <table class="list">
+                <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Quantity</th>
+                    <th>Remove</th>
+                    <th>Unit price</th>
+                    <th>Price</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for item in cart %}
+                    {% with product=item.product %}
+                        <tr>
+                            <td>
+                                <a class="href" href="{% url 'card_plort' product %}">
+                                    <img class="imgPR" src="{% static item.image %}">
+                                </a>
+                            </td>
+                            <td>{{ item.quantity }}</td>
+                            <td><a href="{% url 'cart_remove' product %}">Remove</a></td>
+                            <td class="num">{{ item.price }}</td>
+                            <td class="num">{{ item.total_price }}</td>
+                        </tr>
+                    {% endwith %}
+                {% endfor %}
+                <tr class="total">
+
+                    <td colspan="3"></td>
+                    <td>Total<br>price</td>
+                    <td class="num"> {{ cart.get_total_price }}<br>newbucks</td>
+                </tr>
+                </tbody>
+                </table>
+
+                <form class="delivery" method="post">
+                    {% csrf_token %}
+                    <table>
+                        <tr>
+                            <td>{{ form.dateDelivery.label_tag }}</td>
+                            <td>{{ form.dateDelivery }}</td>
+                        </tr>
+                        <tr>
+                            <td>{{ form.deliveryAddress.label_tag }}</td>
+                            <td>{{ form.deliveryAddress }}</td>
+                        </tr>
+                    </table>
+    <!--                <input type="submit" value="Buy">-->
+                </form>
+
+                <table class="continue">
                     <tr>
-                        <td>
-                            <a href="{{ plort.get_absolute_url }}">
-                                <img src="{{ plort.imagePlort }}">
-                            </a>
-                        </td>
-                        <td>{{ product.name }}</td>
-                        <td>{{ item.quantity }}</td>
-                        <td><a href="{% url 'cart_remove' plort.id %}">Remove</a></td>
-                        <td class="num">${{ item.price }}</td>
-                        <td class="num">${{ item.total_price }}</td>
+                    <td><a href="{% url 'base' %}" class="button light">Continue shopping</a></td>
+                    <td><a href="#" class="button">Checkout</a></td>
                     </tr>
-                {% endwith %}
-            {% endfor %}
-            <tr class="total">
-                <td>Total</td>
-                <td colspan="4"></td>
-                <td class="num">{{ cart.get_total_price }}</td>
-            </tr>
-            </tbody>
-        </table>
-        <p class="text-right">
-            <a href="{% url 'base' %}" class="button light">Continue shopping</a>
-            <a href="#" class="button">Checkout</a>
-        </p>
-
-<!--            <form method="post">-->
-<!--&lt;!&ndash;                {{form.as_p}}&ndash;&gt;-->
-<!--                {% csrf_token %}-->
-<!--                <table>-->
-<!--                    <tr>-->
-<!--                        <td>{{ form.boughtQuantity.label_tag }}</td>-->
-<!--                        <td>{{ form.boughtQuantity }}</td>-->
-<!--                    </tr>-->
-<!--                    <tr>-->
-<!--                        <td>{{ form.dateDelivery.label_tag }}</td>-->
-<!--                        <td>{{ form.dateDelivery }}</td>-->
-<!--                    </tr>-->
-<!--                    <tr>-->
-<!--                        <td>{{ form.deliveryAddress.label_tag }}</td>-->
-<!--                        <td>{{ form.deliveryAddress }}</td>-->
-<!--                    </tr>-->
-<!--&lt;!&ndash;                    <tr>&ndash;&gt;-->
-<!--&lt;!&ndash;                        <td>{{ form.deliveryAddress.label_tag }}</td>&ndash;&gt;-->
-<!--&lt;!&ndash;                        <td>{{ form.deliveryAddress.label_tag }}</td>&ndash;&gt;-->
-<!--&lt;!&ndash;                    </tr>&ndash;&gt;-->
-<!--                    </table>-->
-<!--&lt;!&ndash;                    <div>&ndash;&gt;-->
-<!--&lt;!&ndash;                        {{ form.ConsentDataProcessing.label_tag }}&ndash;&gt;-->
-<!--&lt;!&ndash;                        {{ form.ConsentDataProcessing }}&ndash;&gt;-->
-<!--&lt;!&ndash;                    </div>&ndash;&gt;-->
-
-<!--                <input type="submit" value="Buy">-->
-<!--            </form>-->
+                </table>
 
         {% else %}
             <p>To make purchases, you must register and log in.</p>

@@ -16,23 +16,23 @@
             <table class="text_title">
                 <tbody>
                     <tr>
-                        <td rowspan="2"> <img src="{% static plort.imagePlort %}" height="100px"></td>
+                        <td rowspan="4"> <img src="{% static plort.imagePlort %}" height="100px"></td>
                         <td><p><b>{{plort.plortName}}</b></p></td>
                     </tr>
                     <tr>
                         <td>
                             {% if user.is_authenticated %}
                             <form action="{% url 'cart_add' plort.idPlort %}" method="post">
-                                {{ cart_product_form }}
-                                {% csrf_token %}
-                                <input type="submit" value="Add to cart">
-                            </form>
-                                &#160;<a href="">In cart</a>
-                                  <a href="{% url 'cart_add' plort.idPlort %}">Add cart</a>
-                            {% else %}
-                            {% endif %}
+                            {{ cart_product_form }}
+                            {% csrf_token %}
                         </td>
                     </tr>
+                    <tr>
+                        <td><input type="submit" value="Add to cart"></td>
+                    </tr>
+                    </form>
+                            {% else %}
+                            {% endif %}
                 </tbody>
             </table>
 

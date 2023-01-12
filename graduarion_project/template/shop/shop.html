@@ -30,8 +30,11 @@
                     <div class='text'>
                         <p><b><a href="{% url 'card_plort' plort.idPlort %}">{{plort.plortName}}</a></b></p><br>
                         {% if user.is_authenticated %}
-                            <a href="{% url 'cart_detail' %}">In cart</a>
-                            <a href="{% url 'cart_add' plort.idPlort %}">Add cart</a>
+                        <form action="{% url 'cart_add' plort.idPlort %}" method="post">
+                            {{ cart_product_form }}
+                                {% csrf_token %}
+                            <input type="submit" value="Add to cart">
+                        </form>
                         {% else %}
                         {% endif %}
                     </div>
@@ -42,7 +45,6 @@
                     <p>In stock: {{plort.quantity}}</p>
                     <p>Rarity: {{plort.rarity}}</p>
                 </div>
-<!--                    <p>{{plort.description}}</p>-->
         </div>
         {% endfor %}
     </div>
