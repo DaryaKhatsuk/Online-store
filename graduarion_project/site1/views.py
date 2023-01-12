@@ -11,7 +11,7 @@ from .helper_file import FORM_EMAIL, create
 from django.contrib.sessions.middleware import SessionMiddleware, settings
 from .forms import CartAddProductForm
 from .cart import Cart
-
+from datetime import date, datetime
 
 """
 Errors
@@ -44,8 +44,8 @@ using session: request.session['foo'] = 'bar'    # задать переменн
 
 
 def shop_view(request):
-    # try:
-    #   del request.session['cart']
+    try:
+        #   del request.session['cart']
         cart_product_form = CartAddProductForm()
         context = {
             'user': request.user,
@@ -53,13 +53,13 @@ def shop_view(request):
             'cart_product_form': cart_product_form,
         }
         return render(request, 'shop/shop.html', context)
-    # except Exception as ex:
-    #     print(ex)
-    #     return redirect('error_frame')
+    except Exception as ex:
+        print(ex)
+        return redirect('error_frame')
 
 
 def card_plort(request, num):
-    # try:
+    try:
         if request.method == 'POST':
             text_user = CommentsForm(data=request.POST)
             if text_user.is_valid():
@@ -75,62 +75,118 @@ def card_plort(request, num):
             'comment_form': CommentsForm(),
             'product': num,
             'cart_product_form': cart_product_form,
-
         }
         return render(request, 'shop/card_plort.html', context)
-    # except Exception as ex:
-    #     print(ex)
-    #     return redirect('error_frame')
+    except Exception as ex:
+        print(ex)
+        return redirect('error_frame')
 
 
 @require_POST
 def cart_add(request, product_id):
-    print(product_id)
-    cart = Cart(request)
-    form = CartAddProductForm(request.POST)
-    print(form)
-    if form.is_valid():
-        cd = form.cleaned_data
-        cart.add(quantity=form.cleaned_data['quantity'],
-                 product=product_id,
-                 update_quantity=cd['update'],
-                 )
-    return redirect('base')
+    try:
+        cart = Cart(request)
+        form = CartAddProductForm(request.POST)
+        if form.is_valid():
+            cd = form.cleaned_data
+            cart.add(quantity=form.cleaned_data['quantity'],
+                     product=product_id,
+                     update_quantity=cd['update'],
+                     )
+        return redirect('base')
+    except Exception as ex:
+        print(ex)
+        return redirect('error_frame')
 
 
 def cart_remove(request, product_id):
-    cart = Cart(request)
-    product = product_id
-    # print(product_id)
-    # print(product)
-    # print(cart.remove(product))
-    cart.remove(product)
-    return redirect('cart_detail')
+    try:
+        cart = Cart(request)
+        product = product_id
+        cart.remove(product)
+        return redirect('cart_detail')
+    except Exception as ex:
+        print(ex)
+        return redirect('error_frame')
 
 
 def cart_detail(request):
-    if request.method == 'POST':
-        print(request.data.get())
-        print(request.user())
-
-        user = User.objects.get(id=request.user.id)
-        # user.delete()
-        # plorts = Plorts.objects.filter(idPlort=num)
     cart = Cart(request)
     cart_product_form = CartAddProductForm()
+    if request.method == 'POST':
+        purchaseform = PurchaseForm(data=request.POST)
+        cart_product_form = CartAddProductForm(data=request.POST)
+        if purchaseform.is_valid():
+            purchaseform_date = datetime(int(purchaseform.data.get('dateDelivery_year')),
+                                         int(purchaseform.data.get('dateDelivery_month')),
+                                         int(purchaseform.data.get('dateDelivery_day'))).date()
+
+            if purchaseform_date > date.today():
+                cart_session = request.session['cart']
+                coun_objects = 0
+                for item, dataItem in cart_session.items():
+                    changesPlorts = Plorts.objects.get(idPlort=item)
+                    if changesPlorts.quantity - dataItem.get('quantity') >= 0:
+                        changesPlorts.quantity -= dataItem.get('quantity')
+                        changesPlorts.save()
+                        totalPrice = int(dataItem.get('price')) * int(dataItem.get('quantity'))
+                        buying = Purchase(boughtPlort=changesPlorts.idPlort,
+                                          pricePlort=dataItem.get('price'),
+                                          boughtQuantity=dataItem.get('quantity'),
+                                          totalPrice=totalPrice,
+                                          deliveryAddress=purchaseform.data.get('deliveryAddress'),
+                                          dateDelivery=purchaseform_date,
+                                          currentCustomer=request.user.id,
+                                          )
+                        buying.save()
+                        coun_objects += 1
+                    else:
+                        return redirect('too_much_plorts')
+                    if coun_objects == len(cart_session.items()):
+                        del request.session['cart']
+                        return redirect('cart_done')
+            elif purchaseform_date <= date.today():
+                return redirect('cart_not_done')
+
     context = {
         'cart_product_form': cart_product_form,
         'cart': cart,
         'form': PurchaseForm,
         'buy': Purchase,
+        'plort': Plorts,
     }
     return render(request, 'cart/cart.html', context)
 
 
 def cart_done(request):
-    context = {
-    }
-    return render(request, 'cart/purchases_register.html', context)
+    try:
+        context = {
+        }
+        return render(request, 'cart/purchases_register.html', context)
+    except Exception as ex:
+        print(ex)
+        return redirect('error_frame')
+
+
+def cart_not_done_view(request):
+    try:
+        context = {
+        }
+        return render(request, 'cart/order_not_appr.html', context)
+    except Exception as ex:
+        print(ex)
+        return redirect('error_frame')
+
+
+def much_plorts_view(request):
+    try:
+        context = {
+        }
+        return render(request, 'cart/too_much_plorts.html', context)
+    except Exception as ex:
+        print(ex)
+        return redirect('error_frame')
+
 
 """
 Password reset view
@@ -229,16 +285,14 @@ def registration_view(request):
 def login_view(request):
     try:
         if request.method == "POST":
-            # request.session['shop'] = 'buy'
             user_form = RegistrationForm(data=request.POST)
             user = authenticate(username=user_form.data.get('username'),
                                 password=user_form.data.get('password'))
             login(request, user)
-            # if request.session.is_empty():
-            #     request.session['shop'] = 'buy'
             return redirect('base')
         context = {
             'form': LoginForm(),
+            'purchases': Purchase.objects.filter(currentCustomer=request.user.id),
         }
         return render(request, 'accounts/account.html', context)
     except Exception as ex:
@@ -260,14 +314,17 @@ def delete_account_view(request):
     try:
         if request.method == "POST":
             user_form = AccountDelForm(data=request.POST)
-            if user_form.is_valid() and user_form.data.get('email') == request.user.email:
-                with get_connection() as connection:
-                    EmailMessage(subject='Delete account', body=f"Dear {request.user.first_name}, your account on "
-                                                                f"PlortShop.Zz as deleted.",
-                                 from_email=FORM_EMAIL, to=[request.user.email], connection=connection).send()
-                    user = User.objects.get(id=request.user.id)
-                    user.delete()
-                    return redirect('delete_account_done')
+            if request.user.id not in Purchase.objects.filter(currentCustomer=request.user.id):
+                if user_form.is_valid() and user_form.data.get('email') == request.user.email:
+                    with get_connection() as connection:
+                        EmailMessage(subject='Delete account', body=f"Dear {request.user.first_name}, your account on "
+                                                                    f"PlortShop.Zz as deleted.",
+                                     from_email=FORM_EMAIL, to=[request.user.email], connection=connection).send()
+                        user = User.objects.get(id=request.user.id)
+                        user.delete()
+                        return redirect('delete_account_done')
+            else:
+                return redirect('not_delete')
         context = {
             'form': AccountDelForm(),
         }
@@ -282,6 +339,16 @@ def delete_account_done_view(request):
         context = {
         }
         return render(request, 'accounts/delete_account/delete_account_done.html', context)
+    except Exception as ex:
+        print(ex)
+        return redirect('error_frame')
+
+
+def not_delete_view(request):
+    try:
+        context = {
+        }
+        return render(request, 'accounts/delete_account/not_delete.html', context)
     except Exception as ex:
         print(ex)
         return redirect('error_frame')

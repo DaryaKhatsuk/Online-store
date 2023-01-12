@@ -48,7 +48,7 @@ class PurchaseForm(forms.ModelForm):
 
     class Meta:
         model = Purchase
-        fields = ('boughtQuantity', 'deliveryAddress', 'dateDelivery')
+        fields = ('deliveryAddress', 'dateDelivery')
 
 
 class CommentsForm(forms.ModelForm):

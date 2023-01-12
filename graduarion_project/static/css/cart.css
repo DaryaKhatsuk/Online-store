@@ -59,7 +59,12 @@ select{
 }
 
 .delivery{
-    horiz-align: left;align-content: normal;
+    horiz-align: left;
+    align-content: normal;
+}
+
+.delivery tr{
+    text-align: left;
 }
 
 input{

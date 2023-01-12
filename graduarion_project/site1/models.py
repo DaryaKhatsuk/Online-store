@@ -40,4 +40,4 @@ class Purchase(models.Model):
     dateDelivery = models.DateField()
     dateOrder = models.DateField(auto_now_add=True)
 
-    currentCustomer = models.CharField(max_length=200, verbose_name='Customer')
+    currentCustomer = models.IntegerField(verbose_name='Customer')

@@ -34,8 +34,32 @@
 
         </table>
 
+
+        {% if purchases %}
+                {% for purchase in purchases %}
+                    <table>
+                        <tr>
+                            <td>Order number&#160;{{ purchase.idPurchase }}</td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                        </tr>
+                    </table>
+                {% endfor %}
+            {% else %}
+                 <table class="for_base">
+                    <tr>
+                        <td>No active orders</td>
+                    </tr>
+                </table>
+            {% endif %}
         <a class="dell" href="{% url 'delete_account' %}">Delete account</a>
-        <p>Your orders</p>
 
         {% else %}
             <form method="post">

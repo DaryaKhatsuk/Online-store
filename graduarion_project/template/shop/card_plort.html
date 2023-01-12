@@ -74,18 +74,26 @@
         </div>
 
         <div class="comments_for_base">
-            {% for comment in comments %}
-                <table>
+            {% if comments %}
+                {% for comment in comments %}
+                    <table>
+                        <tr>
+                            <td>User:&#160;{{comment.userName}}</td>
+                        </tr>
+                        <tr>
+                            <td>Comment:&#160;{{comment.UserText}}</td>
+                        </tr>
+                        <tr>
+                            <td>Date:&#160;{{comment.dateOrder}}</td>
+                    </table>
+                {% endfor %}
+            {% else %}
+                 <table class="comments_for_base">
                     <tr>
-                        <td>User:&#160;{{comment.userName}}</td>
+                        <td>No comments yet, be the first!</td>
                     </tr>
-                    <tr>
-                        <td>Comment:&#160;{{comment.UserText}}</td>
-                    </tr>
-                    <tr>
-                        <td>Date:&#160;{{comment.dateOrder}}</td>
                 </table>
-            {% endfor %}
+            {% endif %}
         </div>
 
     </div>
