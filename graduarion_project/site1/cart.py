@@ -1,6 +1,6 @@
 from decimal import Decimal
 from django.conf import settings
-from .models import Purchase, Plorts
+from .models import Plorts
 
 
 class Cart(object):
@@ -26,7 +26,6 @@ class Cart(object):
                                                'price': str(product_id.price),
                                                'image': product_id.imagePlort,
                                              }
-            # print(self.cart[product_id.idPlort])
 
         if update_quantity:
             self.cart[product_id.idPlort]['quantity'] = quantity
@@ -37,7 +36,6 @@ class Cart(object):
     def save(self):
         # Обновление сессии cart
         self.session[settings.CART_SESSION_ID] = self.cart
-        # print(100 *'!', self.cart)
         # Отметить сеанс как "измененный", чтобы убедиться, что он сохранен
         self.session.modified = True
 
@@ -45,14 +43,9 @@ class Cart(object):
         """
         Удаление товара из корзины.
         """
-        # print(product)
-        # product_id = Plorts.objects.get(idPlort=product)
-        # print(product_id.idPlort)
-        print(self.cart.get(product))
         if product in self.cart:
-            print('self.cart', self.cart)
             del self.cart[product]
-            self.save()
+        self.save()
 
     def __iter__(self):
         """
@@ -66,9 +59,6 @@ class Cart(object):
         for product, coun in ids.items():
             self.cart[str(product)]['product'] = product
             self.cart[str(product)]['image'] = coun
-            # print('cart adds:', self.cart[str(product)]['product'])
-
-        # keysList = [key for key in product_ids]
 
         # получение объектов product и добавление их в корзину
         for item in self.cart.values():

@@ -13,7 +13,9 @@
 <body>
     <div class="cart">
        {% if user.is_authenticated %}
-
+            {% if cart %}
+        <form method="post">
+            {% csrf_token %}
             <table class="list">
                 <thead>
                 <tr>
@@ -25,6 +27,7 @@
                 </tr>
                 </thead>
                 <tbody>
+
                 {% for item in cart %}
                     {% with product=item.product %}
                         <tr>
@@ -49,9 +52,7 @@
                 </tbody>
                 </table>
 
-                <form class="delivery" method="post">
-                    {% csrf_token %}
-                    <table>
+                    <table class="delivery">
                         <tr>
                             <td>{{ form.dateDelivery.label_tag }}</td>
                             <td>{{ form.dateDelivery }}</td>
@@ -61,15 +62,22 @@
                             <td>{{ form.deliveryAddress }}</td>
                         </tr>
                     </table>
-    <!--                <input type="submit" value="Buy">-->
-                </form>
 
                 <table class="continue">
                     <tr>
                     <td><a href="{% url 'base' %}" class="button light">Continue shopping</a></td>
-                    <td><a href="#" class="button">Checkout</a></td>
+                    <td><input type="submit" value="Buy"></td>
+                        <!--                    <td><a href="#" class="button">Checkout</a></td>-->
                     </tr>
                 </table>
+        </form>
+                {% else %}
+                    <table class="continue">
+                        <tr>
+                            <td>Cart empty</td>
+                        </tr>
+                    </table>
+                {% endif %}
 
         {% else %}
             <p>To make purchases, you must register and log in.</p>

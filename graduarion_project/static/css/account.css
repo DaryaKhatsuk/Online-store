@@ -5,7 +5,7 @@ nav{
 
 .sect{
     min-width: 478px;
-    padding: 8px;
+    padding: 8px 8px 16px 8px;
     background: rgba(255, 255, 255, 0.8);
     border-radius: 10px;
     margin: 16px 0px 8px 0px;
@@ -66,9 +66,15 @@ input:active{
 }
 
 .dell{
-    margin: 0px;
+    margin: 0px 0px 8px 0px;
 }
 
 .reset input{
     margin: 0px;
+}
+
+.for_base{
+    margin: 8px 0px 0px 0px;
+    padding: 8px 0px 0px 0px;
+    border-radius: 10px;
 }
