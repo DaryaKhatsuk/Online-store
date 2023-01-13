@@ -1,14 +1,12 @@
-from django.contrib.auth import authenticate, login, logout, password_validation
-from django.contrib.auth.models import User, make_password
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.models import User
 from django.http import HttpResponseNotFound
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect
 from django.views.decorators.http import require_POST
-from django.core.mail import EmailMessage, get_connection
-from .forms import RegistrationForm, LoginForm, ResetForm, AccountDelForm, PurchaseForm, CommentsForm
-from .models import Plorts, Purchase, Comments
-from django.views.generic import DeleteView, UpdateView
-from .helper_file import FORM_EMAIL, create
-from django.contrib.sessions.middleware import SessionMiddleware, settings
+from django.core.mail import EmailMessage, get_connection, mail_admins
+from .forms import RegistrationForm, LoginForm, ResetForm, AccountDelForm, PurchaseForm, CommentsForm, SupportForm
+from .models import Plorts, Purchase, Comments, Support
+from .helper_file import FORM_EMAIL, create, EMAIL_ADMIN
 from .forms import CartAddProductForm
 from .cart import Cart
 from datetime import date, datetime
@@ -16,10 +14,6 @@ from datetime import date, datetime
 """
 Errors
 """
-
-
-def m404(request):
-    return HttpResponseNotFound('<h1>Not Found</h1>')
 
 
 def error_frame_view(request):
@@ -45,7 +39,6 @@ using session: request.session['foo'] = 'bar'    # задать переменн
 
 def shop_view(request):
     try:
-        #   del request.session['cart']
         cart_product_form = CartAddProductForm()
         context = {
             'user': request.user,
@@ -82,6 +75,52 @@ def card_plort(request, num):
         return redirect('error_frame')
 
 
+"""
+Support
+"""
+
+
+def support_view(request):
+    try:
+        if request.method == 'POST':
+            support_form = SupportForm(data=request.POST)
+            if support_form.is_valid():
+                supportBase = Support(emailUser=support_form.data.get('emailUser'),
+                                      UserText=support_form.data.get('UserText'),
+                                      )
+                supportBase.save()
+                print(supportBase.idSupport)
+                with get_connection() as connection:
+                    EmailMessage(subject='Need support', body=f"Date: {date.today()}\n"
+                                                              f"Email: {support_form.data.get('emailUser')}\n"
+                                                              f"Message: {support_form.data.get('UserText')}",
+                                 from_email=EMAIL_ADMIN, to=[EMAIL_ADMIN],
+                                 connection=connection).send()
+                    return redirect('support_done')
+        context = {
+            'form': SupportForm,
+        }
+        return render(request, 'support/support.html', context)
+    except Exception as ex:
+        print(ex)
+        return redirect('error_frame')
+
+
+def support_done_view(request):
+    try:
+        context = {
+        }
+        return render(request, 'support/support_done.html', context)
+    except Exception as ex:
+        print(ex)
+        return redirect('error_frame')
+
+
+"""
+Card view
+"""
+
+
 @require_POST
 def cart_add(request, product_id):
     try:
@@ -111,51 +150,78 @@ def cart_remove(request, product_id):
 
 
 def cart_detail(request):
-    cart = Cart(request)
-    cart_product_form = CartAddProductForm()
-    if request.method == 'POST':
-        purchaseform = PurchaseForm(data=request.POST)
-        cart_product_form = CartAddProductForm(data=request.POST)
-        if purchaseform.is_valid():
-            purchaseform_date = datetime(int(purchaseform.data.get('dateDelivery_year')),
-                                         int(purchaseform.data.get('dateDelivery_month')),
-                                         int(purchaseform.data.get('dateDelivery_day'))).date()
+    try:
+        cart = Cart(request)
+        cart_product_form = CartAddProductForm()
+        if request.method == 'POST':
+            purchaseform = PurchaseForm(data=request.POST)
+            cart_product_form = CartAddProductForm(data=request.POST)
+            if purchaseform.is_valid():
+                purchaseform_date = datetime(int(purchaseform.data.get('dateDelivery_year')),
+                                             int(purchaseform.data.get('dateDelivery_month')),
+                                             int(purchaseform.data.get('dateDelivery_day'))).date()
 
-            if purchaseform_date > date.today():
-                cart_session = request.session['cart']
-                coun_objects = 0
-                for item, dataItem in cart_session.items():
-                    changesPlorts = Plorts.objects.get(idPlort=item)
-                    if changesPlorts.quantity - dataItem.get('quantity') >= 0:
-                        changesPlorts.quantity -= dataItem.get('quantity')
-                        changesPlorts.save()
-                        totalPrice = int(dataItem.get('price')) * int(dataItem.get('quantity'))
-                        buying = Purchase(boughtPlort=changesPlorts.idPlort,
-                                          pricePlort=dataItem.get('price'),
-                                          boughtQuantity=dataItem.get('quantity'),
-                                          totalPrice=totalPrice,
-                                          deliveryAddress=purchaseform.data.get('deliveryAddress'),
-                                          dateDelivery=purchaseform_date,
-                                          currentCustomer=request.user.id,
-                                          )
-                        buying.save()
-                        coun_objects += 1
-                    else:
-                        return redirect('too_much_plorts')
-                    if coun_objects == len(cart_session.items()):
-                        del request.session['cart']
-                        return redirect('cart_done')
-            elif purchaseform_date <= date.today():
-                return redirect('cart_not_done')
+                if purchaseform_date > date.today():
+                    cart_session = request.session['cart']
+                    coun_objects = 0
+                    email_from_send = ''
+                    for item, dataItem in cart_session.items():
+                        changesPlorts = Plorts.objects.get(idPlort=item)
+                        if changesPlorts.quantity - dataItem.get('quantity') >= 0:
+                            changesPlorts.quantity -= dataItem.get('quantity')
+                            totalPrice = int(dataItem.get('price')) * int(dataItem.get('quantity'))
+                            buying = Purchase(boughtPlort=changesPlorts.idPlort,
+                                              pricePlort=dataItem.get('price'),
+                                              boughtQuantity=dataItem.get('quantity'),
+                                              totalPrice=totalPrice,
+                                              deliveryAddress=purchaseform.data.get('deliveryAddress'),
+                                              dateDelivery=purchaseform_date,
+                                              currentCustomer=request.user.id,
+                                              )
+                            buying.save()
+                            changesPlorts.save()
+                            email_from_send += f"Ordered №{buying.idPurchase}:\n" \
+                                               f"Plort: {changesPlorts.plortName},\n" \
+                                               f"Price: {dataItem.get('price')},\n" \
+                                               f"Quantity: {dataItem.get('quantity')},\n" \
+                                               f"Sum: {totalPrice}.\n"
+                            coun_objects += 1
+                        else:
+                            return redirect('too_much_plorts')
+                        if coun_objects == len(cart_session.items()):
+                            with get_connection() as connection:
+                                EmailMessage(subject='Order',
+                                             body=f"The buyer under the nickname {request.user.username}\n"
+                                                  f"Name: {request.user.first_name}\n"
+                                                  f"Surname: {request.user.last_name}\n"
+                                                  f"Order date: {buying.dateOrder}\n"
+                                                  f"Desired delivery date: {purchaseform_date}\n"
+                                                  f"The address: {purchaseform.data.get('deliveryAddress')}\n"
+                                                  f"His email: {request.user.email}\n{email_from_send}",
+                                             from_email=EMAIL_ADMIN,
+                                             to=[EMAIL_ADMIN], connection=connection).send()
+                                EmailMessage(subject='Your order from PlortShop.Zz',
+                                             body=f"Dear {request.user.first_name},\n"
+                                             f"thank you for your order. In case of any problems, we will contact you."
+                                             f"\nOrder Details:\n{email_from_send}"
+                                             f"Desired delivery date: {purchaseform_date}\n"
+                                             f"The address: {purchaseform.data.get('deliveryAddress')}\n",
+                                             from_email=FORM_EMAIL, to=[request.user.email],
+                                             connection=connection).send()
+                            del request.session['cart']
+                            return redirect('cart_done')
+                elif purchaseform_date <= date.today():
+                    return redirect('cart_not_done')
 
-    context = {
-        'cart_product_form': cart_product_form,
-        'cart': cart,
-        'form': PurchaseForm,
-        'buy': Purchase,
-        'plort': Plorts,
-    }
-    return render(request, 'cart/cart.html', context)
+        context = {
+            'cart_product_form': cart_product_form,
+            'cart': cart,
+            'form': PurchaseForm,
+        }
+        return render(request, 'cart/cart.html', context)
+    except Exception as ex:
+        print(ex)
+        return redirect('error_frame')
 
 
 def cart_done(request):
@@ -284,6 +350,39 @@ def registration_view(request):
 
 def login_view(request):
     try:
+        plorts = {}
+        if request.user.is_superuser == True:
+            for idPurchase in Purchase.objects.values('idPurchase', 'boughtPlort', 'pricePlort', 'boughtQuantity',
+                                                      'totalPrice', 'deliveryAddress', 'dateDelivery', 'dateOrder',
+                                                      'currentCustomer'):
+                plort = Plorts.objects.get(idPlort=idPurchase.get('boughtPlort'))
+                user = User.objects.get(id=idPurchase.get('currentCustomer'))
+                plorts[idPurchase.get('idPurchase')] = {'idPurchase': idPurchase.get('idPurchase'),
+                                                        'pricePlort': idPurchase.get('pricePlort'),
+                                                        'boughtQuantity': idPurchase.get('boughtQuantity'),
+                                                        'totalPrice': idPurchase.get('totalPrice'),
+                                                        'deliveryAddress': idPurchase.get('deliveryAddress'),
+                                                        'dateOrder': idPurchase.get('dateOrder'),
+                                                        'dateDelivery': idPurchase.get('dateDelivery'),
+                                                        'boughtPlort': plort.plortName, 'username': user.username,
+                                                        'first_name': user.first_name, 'last_name': user.last_name,
+                                                        'email': user.email
+                                                        }
+        plorts_user = {}
+        if not request.user.is_superuser:
+            for purchases in Purchase.objects.values('idPurchase', 'boughtPlort', 'pricePlort', 'boughtQuantity',
+                                                      'totalPrice', 'deliveryAddress', 'dateDelivery', 'dateOrder')\
+                                                    .filter(currentCustomer=request.user.id):
+                plort = Plorts.objects.get(idPlort=purchases.get('boughtPlort'))
+                plorts_user[purchases.get('idPurchase')] = {'idPurchase': purchases.get('idPurchase'),
+                                                            'pricePlort': purchases.get('pricePlort'),
+                                                            'boughtQuantity': purchases.get('boughtQuantity'),
+                                                            'totalPrice': purchases.get('totalPrice'),
+                                                            'deliveryAddress': purchases.get('deliveryAddress'),
+                                                            'dateOrder': purchases.get('dateOrder'),
+                                                            'dateDelivery': purchases.get('dateDelivery'),
+                                                            'boughtPlort': plort.plortName
+                                                            }
         if request.method == "POST":
             user_form = RegistrationForm(data=request.POST)
             user = authenticate(username=user_form.data.get('username'),
@@ -291,8 +390,10 @@ def login_view(request):
             login(request, user)
             return redirect('base')
         context = {
+            'user': request.user,
             'form': LoginForm(),
-            'purchases': Purchase.objects.filter(currentCustomer=request.user.id),
+            'purchases': plorts_user.values(),
+            'plorts': plorts.values(),
         }
         return render(request, 'accounts/account.html', context)
     except Exception as ex:
@@ -314,7 +415,9 @@ def delete_account_view(request):
     try:
         if request.method == "POST":
             user_form = AccountDelForm(data=request.POST)
-            if request.user.id not in Purchase.objects.filter(currentCustomer=request.user.id):
+            if Purchase.objects.filter(currentCustomer=request.user.id):
+                return redirect('not_delete')
+            else:
                 if user_form.is_valid() and user_form.data.get('email') == request.user.email:
                     with get_connection() as connection:
                         EmailMessage(subject='Delete account', body=f"Dear {request.user.first_name}, your account on "
@@ -323,8 +426,6 @@ def delete_account_view(request):
                         user = User.objects.get(id=request.user.id)
                         user.delete()
                         return redirect('delete_account_done')
-            else:
-                return redirect('not_delete')
         context = {
             'form': AccountDelForm(),
         }

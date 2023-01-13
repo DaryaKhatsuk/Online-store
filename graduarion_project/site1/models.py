@@ -1,5 +1,4 @@
 from django.db import models
-from django.contrib.auth.models import User
 
 
 class Comments(models.Model):
@@ -41,3 +40,9 @@ class Purchase(models.Model):
     dateOrder = models.DateField(auto_now_add=True)
 
     currentCustomer = models.IntegerField(verbose_name='Customer')
+
+
+class Support(models.Model):
+    idSupport = models.AutoField(primary_key=True, verbose_name='Key')
+    emailUser = models.CharField(max_length=100, verbose_name='Email')
+    UserText = models.CharField(max_length=2000, verbose_name='Message')

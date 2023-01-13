@@ -11,9 +11,6 @@
     <link rel="stylesheet" href="{% static 'css/shop.css' %}">
 </head>
 <body>
-    <div class="yandex_maps">
-
-    </div>
     <div class="attention_mess">
     {% if user.is_authenticated %}
     {% else %}
@@ -30,12 +27,14 @@
                     <div class='text'>
                         <p><b><a href="{% url 'card_plort' plort.idPlort %}">{{plort.plortName}}</a></b></p><br>
                         {% if user.is_authenticated %}
-                        <form action="{% url 'cart_add' plort.idPlort %}" method="post">
-                            {{ cart_product_form }}
-                                {% csrf_token %}
-                            <input type="submit" value="Add to cart">
-                        </form>
-                        {% else %}
+                            {% if user.is_authenticated and user.is_superuser == False %}
+                                <form action="{% url 'cart_add' plort.idPlort %}" method="post">
+                                    {{ cart_product_form }}
+                                        {% csrf_token %}
+                                    <input type="submit" value="Add to cart">
+                                </form>
+                            {% else %}
+                            {% endif %}
                         {% endif %}
                     </div>
                 </div>

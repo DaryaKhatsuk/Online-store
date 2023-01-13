@@ -13,7 +13,7 @@
 <body>
     <div class="sect">
         {% if user.is_authenticated %}
-        <table>
+        <table class="sect_user">
             <tr>
                 <td>Username:</td>
                 <td>{{ user }}</td>
@@ -33,35 +33,103 @@
             </tr>
 
         </table>
-
-
-        {% if purchases %}
-                {% for purchase in purchases %}
-                    <table>
-                        <tr>
-                            <td>Order number&#160;{{ purchase.idPurchase }}</td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                        </tr>
-                    </table>
-                {% endfor %}
-            {% else %}
-                 <table class="for_base">
-                    <tr>
-                        <td>No active orders</td>
-                    </tr>
-                </table>
-            {% endif %}
-        <a class="dell" href="{% url 'delete_account' %}">Delete account</a>
+        {% if user.is_superuser == True %}
+            <div class="orders_check">
+                    {% if plorts %}
+                        {% for plort in plorts %}
+                            <table class="orders">
+                                <tr>
+                                    <td>Order number:&#160;{{plort.idPurchase}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Plort:&#160;{{plort.boughtPlort}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Price:&#160;{{plort.pricePlort}}&#160;newbucks</td>
+                                </tr>
+                                <tr>
+                                    <td>Quantity:&#160;{{plort.boughtQuantity}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Total price:&#160;{{plort.totalPrice}}&#160;newbucks</td>
+                                </tr>
+                                <tr>
+                                    <td>Delivery address:&#160;{{plort.deliveryAddress}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Date order:&#160;{{plort.dateOrder}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Delivery date:&#160;{{plort.dateDelivery}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Customer&#160;</td>
+                                </tr>
+                                <tr>
+                                    <td>Username:&#160;{{plort.username}}</td>
+                                </tr>
+                                <tr>
+                                    <td>First name:&#160;{{plort.first_name}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Last name:&#160;{{plort.last_name}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Email:&#160;{{plort.email}}</td>
+                                </tr>
+                            </table>
+                        {% endfor %}
+                    {% else %}
+                    {% endif %}
+            </div>
 
         {% else %}
+
+            <div class="orders_check">
+                {% if purchases %}
+                    {% for purchase in purchases %}
+                        <table class="orders">
+                            <tr>
+                                <td>Order number:&#160;{{purchase.idPurchase}}</td>
+                            </tr>
+                            <tr>
+                                <td>Plort:&#160;{{purchase.boughtPlort}}</td>
+                            </tr>
+                            <tr>
+                                <td>Price:&#160;{{purchase.pricePlort}}&#160;newbucks</td>
+                            </tr>
+                            <tr>
+                                <td>Quantity:&#160;{{purchase.boughtQuantity}}</td>
+                            </tr>
+                            <tr>
+                                <td>Total price:&#160;{{purchase.totalPrice}}&#160;newbucks</td>
+                            </tr>
+                            <tr>
+                                <td>Delivery address:&#160;{{purchase.deliveryAddress}}</td>
+                            </tr>
+                            <tr>
+                                <td>Date order:&#160;{{purchase.dateOrder}}</td>
+                            </tr>
+                            <tr>
+                                <td>Delivery date:&#160;{{purchase.dateDelivery}}</td>
+                            </tr>
+                        </table>
+                    {% endfor %}
+                {% else %}
+                     <table class="for_base">
+                        <tr>
+                            <td>No active orders</td>
+                        </tr>
+                    </table>
+                {% endif %}
+        {% endif %}
+        </div>
+
+        {% if user.is_superuser == False %}
+            <a class="dell" href="{% url 'delete_account' %}">Delete account</a>
+        {% endif %}
+        {% else %}
+
             <form method="post">
                 {% csrf_token %}
 
@@ -85,7 +153,6 @@
             <a href="{% url 'password_reset' %}">Restore password</a>
         </div>
         {% endif %}
-
     </div>
 </body>
 {% endblock %}

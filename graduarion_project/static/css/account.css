@@ -3,6 +3,12 @@ nav{
     border-end-end-radius: 10px;
 }
 
+.sect_user{
+    padding: 8px 8px 8px 8px;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.8);
+}
+
 .sect{
     min-width: 478px;
     padding: 8px 8px 16px 8px;
@@ -27,19 +33,14 @@ td{
 }
 
 .sect p{
-    padding-top: 15px;
-    padding-bottom: 15px;
+    padding-top: 8px;
+    padding-bottom: 8px;
 }
 
 label{
     text-transform: capitalize;
     text-align: justify;
     padding-right: 8px;
-}
-
-form{
-    /*margin-left: 15px;*/
-    /*margin-right: 15px;*/
 }
 
 input{
@@ -77,4 +78,35 @@ input:active{
     margin: 8px 0px 0px 0px;
     padding: 8px 0px 0px 0px;
     border-radius: 10px;
+}
+
+textarea{
+    padding: 5px;
+    border-radius: 10px;
+}
+
+.orders_check{
+    width: 100%;
+    display: flex;
+    align-items: flex-start;
+    line-height: normal;
+    flex-direction: row;
+    justify-content: center;
+    align-content: stretch;
+    flex-wrap: wrap;
+    margin-block-end: 16px;
+}
+
+.orders{
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.8);
+    padding: 8px;
+    text-align: justify;
+    margin-right: 8px;
+    align-content: space-around;
+    align-items: center;
+}
+
+.orders td{
+    padding-right: 0px;
 }

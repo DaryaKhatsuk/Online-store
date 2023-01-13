@@ -46,6 +46,18 @@ a:active{
     margin: 10px 10px 10px auto;
 }
 
+.support{
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 10px;
+    margin: 16px 8px 0px 8px;
+    padding: 16px;
+    object-position: center;
+}
+
+.support a{
+    margin: 0px;
+}
+
 footer{
     margin-top: 16px;
     height: 50px;
