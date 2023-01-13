@@ -15,9 +15,6 @@
         *{
             font-family: "Microsoft JhengHei", fantasy;
         }
-        button{
-            font-size: large;
-        }
     </style>
 </head>
 <body>
@@ -40,6 +37,9 @@
 
     {% block page-content %}
     {% endblock %}
+    <div class="support">
+        <p>If you need help with an order or find an error, please <a href="{% url 'support' %}">email</a> us.</p>
+    </div>
 </body>
 <footer>
      <a href='https://www.linkedin.com/in/daryakhatsuk/'>About me</a>

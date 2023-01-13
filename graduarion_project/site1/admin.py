@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Plorts, Purchase, Comments
+from .models import Plorts, Purchase, Comments, Support
 
 
 @admin.register(Plorts)
@@ -23,3 +23,10 @@ class CommentsAdmin(admin.ModelAdmin):
     list_display = ('idComment', 'idPlort', 'idUser', 'UserText')
     list_filter = ('idPlort', 'idUser')
     search_fields = ('idPlort', 'idUser')
+
+
+@admin.register(Support)
+class SupportAdmin(admin.ModelAdmin):
+    list_display = ('idSupport', 'emailUser', 'UserText')
+    list_filter = ('emailUser',)
+    search_fields = ('emailUser', 'UserText')

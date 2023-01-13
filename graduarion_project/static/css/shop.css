@@ -30,7 +30,7 @@ h2{
     /*width: 30%;*/
     width: 250px;
     min-width: 240px;
-    height: 186px;
+    height: 190px;
     background: rgba(255, 255, 255, 0.8);
     color: rgba(255, 89, 108, 0.8);
     border-radius:10px;
@@ -38,7 +38,7 @@ h2{
     padding: 8px;
     margin-top: 8px;
     margin-left: 8px;
-    align-content: space-around;
+    align-content: center;
     align-items: center;
 }
 

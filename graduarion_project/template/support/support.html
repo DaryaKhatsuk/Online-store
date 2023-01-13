@@ -12,24 +12,23 @@
 </head>
 <body>
     <div class="sect">
-        {% if user.is_superuser == False %}
-             <form method="post">
+          <form method="post">
                 {% csrf_token %}
-
-                <table class="table_dell">
+                <table>
                     <tr>
-                        <p>Enter email to delete account</p>
+                        <td>{{ form.emailUser.label_tag }}</td>
+                        <td>{{ form.emailUser }}</td>
+                    </tr>
+
+                    <tr>
+                        <td>{{ form.UserText.label_tag }}</td>
+                        <td>{{ form.UserText }}</td>
                     </tr>
                     <tr>
-                        <td>{{ form.email.label_tag }}</td>
-                        <td>{{ form.email }}</td>
+                        <td><input type="submit" value="Enter"></td>
                     </tr>
                 </table>
-
-                <input type="submit" value="Enter">
             </form>
-        {% else %}
-        {% endif %}
     </div>
 </body>
 {% endblock %}
