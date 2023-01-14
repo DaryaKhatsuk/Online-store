@@ -72,3 +72,8 @@ select{
     padding: 8px;
     border-radius: 10px;
 }
+
+textarea{
+    padding: 5px;
+    border-radius: 10px;
+}
