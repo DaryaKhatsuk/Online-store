@@ -28,11 +28,15 @@
                         <p><b><a href="{% url 'card_plort' plort.idPlort %}">{{plort.plortName}}</a></b></p><br>
                         {% if user.is_authenticated %}
                             {% if user.is_authenticated and user.is_superuser == False %}
-                                <form action="{% url 'cart_add' plort.idPlort %}" method="post">
-                                    {{ cart_product_form }}
-                                        {% csrf_token %}
-                                    <input type="submit" value="Add to cart">
-                                </form>
+                                {%if plort.quantity == 0 %}
+                                    <p>Out of stock, also for pre-order</p>
+                                {% else %}
+                                    <form action="{% url 'cart_add' plort.idPlort %}" method="post">
+                                        {{ cart_product_form }}
+                                            {% csrf_token %}
+                                        <input type="submit" value="Add to cart">
+                                    </form>
+                                {% endif %}
                             {% else %}
                             {% endif %}
                         {% endif %}

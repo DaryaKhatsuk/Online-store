@@ -22,6 +22,9 @@
                     <tr>
                         <td>
                             {% if user.is_authenticated and user.is_superuser == False %}
+                                {%if plort.quantity == 0 %}
+                                    <p>Out of stock, also for pre-order</p>
+                                {% else %}
                             <form action="{% url 'cart_add' plort.idPlort %}" method="post">
                             {{ cart_product_form }}
                             {% csrf_token %}
@@ -31,6 +34,7 @@
                         <td><input type="submit" value="Add to cart"></td>
                     </tr>
                     </form>
+                            {% endif %}
                             {% endif %}
                 </tbody>
             </table>
@@ -84,9 +88,6 @@
                         </tr>
                         <tr>
                             <td>Date:&#160;{{comment.dateOrder}}</td>
-                        </tr>
-                        <tr>
-                            <td><a href="{% url 'cart_remove' product %}">Remove</a></td>
                         </tr>
                     </table>
                 {% endfor %}
