@@ -9,7 +9,8 @@ class RegistrationForm(forms.ModelForm):
                                max_length=50)
     first_name = forms.CharField(label='First name', max_length=50)
     last_name = forms.CharField(label='Last name', max_length=50)
-    email = forms.CharField(label='Email', max_length=50, widget=forms.EmailInput)
+    email = forms.CharField(label='Email', max_length=50, widget=forms.EmailInput,
+                            help_text='Please use a valid email address so that you can be contacted')
     ConsentDataProcessing = forms.NullBooleanField(label='Consent to data processing')
 
     class Meta:
@@ -59,7 +60,7 @@ class CommentsForm(forms.ModelForm):
         fields = ('UserText',)
 
 
-PRODUCT_QUANTITY_CHOICES = [(i, str(i)) for i in range(1, 100)]
+PRODUCT_QUANTITY_CHOICES = [(i, str(i)) for i in range(1, 101)]
 
 
 class CartAddProductForm(forms.Form):

@@ -26,11 +26,11 @@ class Cart(object):
                                                'price': str(product_id.price),
                                                'image': product_id.imagePlort,
                                              }
-
         if update_quantity:
             self.cart[product_id.idPlort]['quantity'] = quantity
-        else:
-            self.cart[product_id.idPlort]['quantity'] += quantity
+        # else:
+        #     self.cart[product_id.idPlort]['quantity'] += quantity
+        #     print(self.cart[product_id.idPlort])
         self.save()
 
     def save(self):
@@ -61,6 +61,7 @@ class Cart(object):
             self.cart[str(product)]['image'] = coun
 
         # получение объектов product и добавление их в корзину
+
         for item in self.cart.values():
             item['price'] = int(item['price'])
             item['total_price'] = item['price'] * item['quantity']

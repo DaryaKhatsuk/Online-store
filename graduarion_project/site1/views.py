@@ -190,16 +190,6 @@ def cart_detail(request):
                             return redirect('too_much_plorts')
                         if coun_objects == len(cart_session.items()):
                             with get_connection() as connection:
-                                EmailMessage(subject='Order',
-                                             body=f"The buyer under the nickname {request.user.username}\n"
-                                                  f"Name: {request.user.first_name}\n"
-                                                  f"Surname: {request.user.last_name}\n"
-                                                  f"Order date: {buying.dateOrder}\n"
-                                                  f"Desired delivery date: {purchaseform_date}\n"
-                                                  f"The address: {purchaseform.data.get('deliveryAddress')}\n"
-                                                  f"His email: {request.user.email}\n{email_from_send}",
-                                             from_email=EMAIL_ADMIN,
-                                             to=[EMAIL_ADMIN], connection=connection).send()
                                 EmailMessage(subject='Your order from PlortShop.Zz',
                                              body=f"Dear {request.user.first_name},\n"
                                              f"thank you for your order. In case of any problems, we will contact you."
@@ -208,6 +198,17 @@ def cart_detail(request):
                                              f"The address: {purchaseform.data.get('deliveryAddress')}\n",
                                              from_email=FORM_EMAIL, to=[request.user.email],
                                              connection=connection).send()
+                            with get_connection() as connection:
+                                EmailMessage(subject='Order',
+                                             body=f"The buyer under the nickname {request.user.username}\n"
+                                                  f"Name: {request.user.first_name}\n"
+                                                  f"Surname: {request.user.last_name}\n"
+                                                  f"Order date: {buying.dateOrder}\n"
+                                                  f"Desired delivery date: {purchaseform_date}\n"
+                                                  f"The address: {purchaseform.data.get('deliveryAddress')}\n"
+                                                  f"His email: {request.user.email}\n{email_from_send}",
+                                             from_email=EMAIL_ADMIN, to=[EMAIL_ADMIN], connection=connection).send()
+
                             del request.session['cart']
                             return redirect('cart_done')
                 elif purchaseform_date <= date.today():
@@ -371,7 +372,7 @@ def login_view(request):
         plorts_user = {}
         if not request.user.is_superuser:
             for purchases in Purchase.objects.values('idPurchase', 'boughtPlort', 'pricePlort', 'boughtQuantity',
-                                                      'totalPrice', 'deliveryAddress', 'dateDelivery', 'dateOrder')\
+                                                     'totalPrice', 'deliveryAddress', 'dateDelivery', 'dateOrder')\
                                                     .filter(currentCustomer=request.user.id):
                 plort = Plorts.objects.get(idPlort=purchases.get('boughtPlort'))
                 plorts_user[purchases.get('idPurchase')] = {'idPurchase': purchases.get('idPurchase'),
