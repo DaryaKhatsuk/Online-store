@@ -113,14 +113,14 @@ USE_TZ = True
 LOGIN_REDIRECT_URL = '/'
 
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'raolla12@gmail.com'
-EMAIL_HOST_PASSWORD = 'vppqaxrunzedwiuz'
+EMAIL_HOST_USER = 'your_email@gmail.com'
+EMAIL_HOST_PASSWORD = 'your_password'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False
 
-FORM_EMAIL = 'PlortShop@gmail.com'
-EMAIL_ADMIN = 'raolla12@gmail.com'
+FORM_EMAIL = 'your_email@gmail.com'
+EMAIL_ADMIN = 'your_email@gmail.com'
 
 SERVER_EMAIL = EMAIL_HOST_USER
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
