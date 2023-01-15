@@ -13,6 +13,7 @@ the [settings.py](https://github.com/DaryaKhatsuk/Online-store/blob/master/gradu
 file, in *DATABASES*, the database you need is installed.
 
 Further, in the lines:
+
   EMAIL_HOST_USER = 'your_email@gmail.com'
   
   EMAIL_HOST_PASSWORD = 'your_password'
