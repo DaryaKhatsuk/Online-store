@@ -14,9 +14,13 @@ file, in *DATABASES*, the database you need is installed.
 
 Further, in the lines:
   EMAIL_HOST_USER = 'your_email@gmail.com'
+  
   EMAIL_HOST_PASSWORD = 'your_password'
+  
   FORM_EMAIL = 'your_email@gmail.com'
+  
   EMAIL_ADMIN = 'your_email@gmail.com'
+  
 Enter the email and password you need
 
 Also specify them in the file: [helper_file.py](https://github.com/DaryaKhatsuk/Online-store/blob/master/graduarion_project/site1/helper_file.py)
