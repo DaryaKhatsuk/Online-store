@@ -13,7 +13,7 @@ EMAIL_ADMIN = 'your_email@gmail.com'
 
 def create():
     password_new = ''
-    for i in range(8):
+    for i in range(0, randint(8, 12)):
         password_new += chr(randint(63, 122))
     return password_new
 
