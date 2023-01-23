@@ -39,13 +39,24 @@ using session: request.session['foo'] = 'bar'    # задать переменн
 
 def shop_view(request):
     try:
-        cart_product_form = CartAddProductForm()
-        context = {
-            'user': request.user,
-            'plorts': Plorts.objects.all(),
-            'cart_product_form': cart_product_form,
-        }
-        return render(request, 'shop/shop.html', context)
+        if len(Plorts.objects.all()) > 1:
+            cart_product_form = CartAddProductForm()
+            context = {
+                'user': request.user,
+                'plorts': Plorts.objects.all(),
+                'cart_product_form': cart_product_form,
+            }
+            return render(request, 'shop/shop.html', context)
+        else:
+            commad_start = Command()
+            commad_start.handle()
+            cart_product_form = CartAddProductForm()
+            context = {
+                'user': request.user,
+                'plorts': Plorts.objects.all(),
+                'cart_product_form': cart_product_form,
+            }
+            return render(request, 'shop/shop.html', context)
     except Exception as ex:
         print(ex)
         return redirect('error_frame')
