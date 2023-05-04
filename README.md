@@ -6,6 +6,12 @@ Thesis for a course in the profession of Python-developer.
 Fan site selling plorts from the Slime Rancher game.
 Only we have the freshest plorts from 'Far, Far Range'!
 
+You can watch the video of the work here:
+
+https://drive.google.com/file/d/1eV2rey-iPz5q4z70j84mJRzFsQWfjmK9/view?usp=share_link
+
+https://drive.google.com/file/d/1X88GtXMUpc_fL8jejKaA7HFl1e_EcVZ9/view?usp=share_link
+
 ## For the project to work correctly:
 
 After cloning the project to your device, make sure that the database you need is set in 
